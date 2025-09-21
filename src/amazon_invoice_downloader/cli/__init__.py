@@ -206,23 +206,23 @@ def run(playwright, args):
     test_less_featured_page = page.query_selector('a:has-text("Returns & Orders")')
     if not test_less_featured_page:
         print("Less featured page detected, navigating to sign-in...")
-        page.query_selector('a:has-text("Your Account")').click()
+        safe_click(page, 'query_selector', 'a:has-text("Your Account")')
         page.wait_for_load_state("domcontentloaded")
         sleep()
 
-    page.query_selector('a:has-text("Hello, sign in")').click()
+    safe_click(page, 'query_selector', 'a:has-text("Hello, sign in")')
     page.wait_for_load_state("domcontentloaded")
     sleep()
 
     if email:
         page.get_by_label("Email").fill(email)
-        page.get_by_role("button", name="Continue").click()
+        safe_click(page, 'get_by_role', "button", name="Continue")
         page.wait_for_load_state("domcontentloaded")
         sleep()
 
     if password:
         page.get_by_label("Password").fill(password)
-        page.get_by_role("button", name="Sign in", exact=True).click()
+        safe_click(page, 'get_by_role', "button", name="Sign in", exact=True)
         page.wait_for_load_state("domcontentloaded")
         sleep()
 
@@ -234,7 +234,7 @@ def run(playwright, args):
         print("✅ 2FA completed")
     page.wait_for_load_state("domcontentloaded")
 
-    page.wait_for_selector("a >> text=Returns & Orders", timeout=0).click()
+    safe_click(page, 'wait_for_selector', "a >> text=Returns & Orders", timeout=0)
     sleep()
 
     # Get a list of years from the select options
@@ -264,7 +264,7 @@ def run(playwright, args):
                 if first_page:
                     first_page = False
                 else:
-                    page.get_by_role("link", name="Next →").click()
+                    safe_click(page, 'get_by_role', "link", name="Next →")
                 sleep()  # sleep after every page load
             except TimeoutError:
                 # There are no more pages
