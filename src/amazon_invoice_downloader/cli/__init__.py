@@ -202,6 +202,14 @@ def run(playwright, args):
     page.goto("https://amazon.com/")
     page.wait_for_load_state("domcontentloaded")
 
+    # Check if we're on the continue shopping page
+    test_continue_shopping = page.get_by_role("button", name="Continue shopping")
+    if test_continue_shopping:
+        print("Continue shopping page detected, navigating to main page...")
+        safe_click(page, 'get_by_role', "button", name="Continue shopping")
+        page.wait_for_load_state("domcontentloaded")
+        sleep()
+
     # Check if we're on the less fully featured page
     test_less_featured_page = page.query_selector('a:has-text("Returns & Orders")')
     if not test_less_featured_page:
