@@ -7,6 +7,7 @@ Amazon Invoice Downloader
 
 Usage:
   amazon-invoice-downloader.py \
+    [--debug] \
     [--email=<email> --password=<password>] \
     [--year=<YYYY> | --date-range=<YYYYMMDD-YYYYMMDD>]
   amazon-invoice-downloader.py (-h | --help)
@@ -21,6 +22,7 @@ Date Range Options:
   --year=<YYYY>                     Year, formatted as YYYY  [default: <CUR_YEAR>].
 
 Options:
+  --debug                  Show debug messages and keep browser open on error.
   -h --help                Show this screen.
   -v --version             Show version.
 
@@ -92,6 +94,36 @@ def sleep():
     sleep_time = random.uniform(2, 5)
     # Sleep for the generated time
     time.sleep(sleep_time)
+
+
+def safe_click(page, method_name, *args, **kwargs):
+    """
+    Allow safely clicking an element by passing any method of the page object along with its arguments.
+
+    Examples:
+        safe_click(page, 'query_selector', 'a:has-text("Hello, sign in")')
+        safe_click(page, 'get_by_role', 'button', name="Continue")
+    """
+    # Get the method from the page object
+    method = getattr(page, method_name)
+
+    # Call the method with the provided arguments
+    element = method(*args, **kwargs)
+
+    # Format the call for debugging
+    args_str = ', '.join([repr(arg) for arg in args])
+    kwargs_str = ', '.join([f'{k}={repr(v)}' for k, v in kwargs.items()])
+    all_args = ', '.join(filter(None, [args_str, kwargs_str]))
+
+    print(f"Attempting to click: page.{method_name}({all_args})")
+    try:
+        element.click()
+    except Exception as e:
+        print(f"❌ Failed to click page.{method_name}({all_args}): {e}")
+        if DEBUG_MODE:
+            print(f"🐛 DEBUG: Browser staying open. Press Enter to exit...")
+            input()
+        raise
 
 
 def run(playwright, args):
@@ -285,6 +317,8 @@ def run(playwright, args):
 
 
 def amazon_invoice_downloader():
+    global DEBUG_MODE
+
     # Load environment variables from .env file if needed
     load_env_if_needed()
 
@@ -293,6 +327,9 @@ def amazon_invoice_downloader():
     if args['--version']:
         print(__version__)
         sys.exit(0)
+
+    # Set debug mode
+    DEBUG_MODE = args.get('--debug', False)
 
     with sync_playwright() as playwright:
         run(playwright, args)
