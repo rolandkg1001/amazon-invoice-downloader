@@ -53,7 +53,7 @@ from pathlib import Path
 
 from docopt import docopt
 from dotenv import load_dotenv
-from playwright.sync_api import TimeoutError, sync_playwright
+from playwright.sync_api import sync_playwright
 from playwright_stealth import Stealth
 
 from ..__about__ import __version__
@@ -204,7 +204,7 @@ def run(playwright, args):
 
     # Check if we're on the continue shopping page
     test_continue_shopping = page.get_by_role("button", name="Continue shopping")
-    if test_continue_shopping:
+    if test_continue_shopping.count() > 0:
         print("Continue shopping page detected, navigating to main page...")
         safe_click(page, 'get_by_role', "button", name="Continue shopping")
         page.wait_for_load_state("domcontentloaded")
@@ -212,7 +212,7 @@ def run(playwright, args):
 
     # Check if we're on the less fully featured page
     test_less_featured_page = page.query_selector('a:has-text("Returns & Orders")')
-    if not test_less_featured_page:
+    if test_less_featured_page is None:
         print("Less featured page detected, navigating to sign-in...")
         safe_click(page, 'query_selector', 'a:has-text("Your Account")')
         page.wait_for_load_state("domcontentloaded")
@@ -235,10 +235,9 @@ def run(playwright, args):
         sleep()
 
     # Check for 2FA page
-    if page.query_selector('title:has-text("Two-Step Verification")'):
+    if page.title() == "Two-Step Verification":
         print("🔐 2FA detected - please complete authentication in browser")
-        while page.query_selector('title:has-text("Two-Step Verification")'):
-            time.sleep(1)
+        page.wait_for_selector("a >> text=Returns & Orders", timeout=300000)  # 5 minutes
         print("✅ 2FA completed")
     page.wait_for_load_state("domcontentloaded")
 
@@ -268,15 +267,15 @@ def run(playwright, args):
         while not done:
             # Go to the next page pagination, and continue downloading
             #   if there is not a next page then break
-            try:
-                if first_page:
-                    first_page = False
+            if first_page:
+                first_page = False
+            else:
+                next_link = page.get_by_role("link", name="Next →")
+                if next_link.is_visible() > 0:
+                    next_link.click()
                 else:
-                    safe_click(page, 'get_by_role', "link", name="Next →")
-                sleep()  # sleep after every page load
-            except TimeoutError:
-                # There are no more pages
-                break
+                    break
+            sleep()  # sleep after every page load
 
             # Order Loop
             order_cards = page.query_selector_all(".order-card.js-order-card")
@@ -318,7 +317,7 @@ def run(playwright, args):
                         margin={"top": ".5in", "right": ".5in", "bottom": ".5in", "left": ".5in"},
                     )
                     invoice_page.close()
-
+    print("✅ Finished downloading invoices")
     # Close the browser
     context.close()
     browser.close()
