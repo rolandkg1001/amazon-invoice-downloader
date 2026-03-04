@@ -166,47 +166,92 @@ def run(playwright, args):
 
     Stealth().apply_stealth_sync(page)
 
-    # Wait for page to fully load
-    page.goto("https://amazon.com/")
-    page.wait_for_load_state("domcontentloaded")
-
-    # Check if we're on the less fully featured page
-    test_less_featured_page = page.query_selector('a:has-text("Returns & Orders")')
-    if not test_less_featured_page:
-        print("Less featured page detected, navigating to sign-in...")
-        page.query_selector('a:has-text("Your Account")').click()
-        page.wait_for_load_state("domcontentloaded")
-        sleep()
-
-    page.query_selector('a:has-text("Hello, sign in")').click()
+    # Navigate directly to order history - Amazon redirects to login if needed
+    page.goto("https://www.amazon.de/gp/css/order-history")
     page.wait_for_load_state("domcontentloaded")
     sleep()
 
-    if email:
-        page.get_by_label("Email").fill(email)
-        page.get_by_role("button", name="Continue").click()
-        page.wait_for_load_state("domcontentloaded")
-        sleep()
+    # Try to login if redirected to sign-in page
+    email_field = page.query_selector('#ap_email')
+    if email_field and email:
+        email_field.fill(email)
+        continue_btn = page.query_selector('#continue')
+    # Handle login - credentials from .env or manual entry
+    # If on signin page, try auto-fill; otherwise user logs in manually
+    try:
+        email_field = page.query_selector('#ap_email')
+        if email_field and email:
+            email_field.fill(email)
+            cont = page.query_selector('#continue')
+            if cont:
+                cont.click()
+                page.wait_for_load_state("domcontentloaded")
+                time.sleep(2)
+    except Exception:
+        pass
 
-    if password:
-        page.get_by_label("Password").fill(password)
-        page.get_by_role("button", name="Sign in", exact=True).click()
-        page.wait_for_load_state("domcontentloaded")
-        sleep()
+    try:
+        pw_field = page.query_selector('#ap_password')
+        if pw_field and password:
+            pw_field.fill(password)
+            signin = page.query_selector('#signInSubmit')
+            if signin:
+                signin.click()
+                page.wait_for_load_state("domcontentloaded")
+                time.sleep(2)
+    except Exception:
+        pass
 
-    # Check for 2FA page
-    if page.query_selector('title:has-text("Two-Step Verification")'):
-        print("🔐 2FA detected - please complete authentication in browser")
-        while page.query_selector('title:has-text("Two-Step Verification")'):
-            time.sleep(1)
-        print("✅ 2FA completed")
+    # Wait until we leave any auth/login page (2FA, CAPTCHA, signin)
+    print(f"📍 URL after login attempt: {page.url}")
+    auth_pages = ['ap/mfa', 'ap/cvf', 'ap/challenge', 'ap/signin', 'ap/forgotpassword', 'ax/claim']
+    printed_msg = False
+    waited = 0
+    while waited < 300:
+        try:
+            current_url = page.evaluate("window.location.href")
+        except Exception:
+            try:
+                current_url = page.url
+            except Exception:
+                current_url = ""
+        if not any(x in current_url for x in auth_pages):
+            break
+        if not printed_msg:
+            print("🔐 Auth/Login page detected - please complete in browser...")
+            printed_msg = True
+        time.sleep(3)
+        waited += 3
+    print(f"✅ Auth complete (URL: {page.url})")
+
+    # Navigate to order history
+    page.goto("https://www.amazon.de/your-orders/orders")
     page.wait_for_load_state("domcontentloaded")
+    time.sleep(5)
+    print(f"📍 Orders page: {page.url}")
 
-    page.wait_for_selector("a >> text=Returns & Orders", timeout=0).click()
-    sleep()
-
-    # Get a list of years from the select options
-    select = page.query_selector("select#time-filter")
+    # Get a list of years from the select options - try multiple selectors
+    select = (
+        page.query_selector("select#time-filter")
+        or page.query_selector("select#orderFilter")
+        or page.query_selector("select[name='timeFilter']")
+        or page.query_selector("select[name='orderFilter']")
+    )
+    if not select:
+        print("⚠️ Time filter not found. Debugging page...")
+        print(f"  Page title: {page.title()}")
+        print(f"  URL: {page.url}")
+        all_selects = page.query_selector_all("select")
+        print(f"  Found {len(all_selects)} select elements:")
+        for i, s in enumerate(all_selects):
+            try:
+                sid = s.get_attribute('id') or 'no-id'
+                sname = s.get_attribute('name') or 'no-name'
+                stext = s.inner_text()[:200].replace('\n', ' | ')
+                print(f"    [{i}] id={sid}, name={sname}, options={stext}")
+            except Exception as e:
+                print(f"    [{i}] error reading: {e}")
+        raise Exception("Could not find time filter - see debug output above")
     years = select.inner_text().split("\n")  # skip the first two text options
 
     # Filter years to include only numerical years (YYYY)
@@ -219,24 +264,34 @@ def run(playwright, args):
     # Year Loop (Run backwards through the time range from years to pages to orders)
     for year in years:
         # Select the year in the order filter
-        page.select_option('form[action="/your-orders/orders"] select#time-filter', value=f"year-{year}")
+        print(f"🔍 Selecting year: year-{year}")
+        try:
+            select.select_option(value=f"year-{year}")
+            time.sleep(3)
+            print(f"📍 After filter: {page.evaluate('window.location.href')}")
+        except Exception as e:
+            print(f"❌ Select failed: {e}")
+            # Fallback: navigate directly
+            page.goto(f"https://www.amazon.de/your-orders/orders?timeFilter=year-{year}")
+            time.sleep(5)
+            print(f"📍 After direct nav: {page.evaluate('window.location.href')}")
         sleep()
 
-        # Page Loop
-        first_page = True
-        done = False
-        while not done:
-            # Go to the next page pagination, and continue downloading
-            #   if there is not a next page then break
-            try:
-                if first_page:
-                    first_page = False
-                else:
-                    page.get_by_role("link", name="Next →").click()
-                sleep()  # sleep after every page load
-            except TimeoutError:
-                # There are no more pages
+        # Page Loop - URL-based pagination (Weiter-Button unreliable on amazon.de)
+        page_index = 0
+        while True:
+            if page_index > 0:
+                page_url = f"https://www.amazon.de/your-orders/orders?timeFilter=year-{year}&startIndex={page_index}"
+                print(f"  📄 Loading page: startIndex={page_index}")
+                page.goto(page_url)
+                sleep()
+
+            # Check if we have order cards on this page
+            order_cards_check = page.query_selector_all(".order-card.js-order-card")
+            if not order_cards_check:
+                print(f"  ✅ No more orders found at startIndex={page_index}")
                 break
+            print(f"  📦 Found {len(order_cards_check)} orders on page (startIndex={page_index})")
 
             # Order Loop
             order_cards = page.query_selector_all(".order-card.js-order-card")
@@ -244,16 +299,49 @@ def run(playwright, args):
                 # Parse the order card to create the date and file_name
                 spans = order_card.query_selector_all("span")
                 # Debug:
-                # for i,s in enumerate(spans): print(i, s.inner_text())
+                # for i,s in enumerate(spans): print(f"  span[{i}]: {s.inner_text()[:80]}")
 
                 # Skip cancelled orders
-                if spans[4].inner_text().strip().lower() == "cancelled":
+                if spans[4].inner_text().strip().lower() in ["cancelled", "storniert"]:
                     continue
 
-                date = datetime.strptime(spans[1].inner_text(), "%B %d, %Y")
-                total = spans[3].inner_text().replace("$", "").replace(",", "")  # remove dollar sign and commas
+                # Parse German date format (e.g. "1. Januar 2025")
+                date_text = spans[1].inner_text().strip()
+                try:
+                    date = datetime.strptime(date_text, "%B %d, %Y")
+                except ValueError:
+                    try:
+                        # German: "1. Januar 2025" or "01. Januar 2025"
+                        months_de = {
+                            "Januar": 1,
+                            "Februar": 2,
+                            "März": 3,
+                            "April": 4,
+                            "Mai": 5,
+                            "Juni": 6,
+                            "Juli": 7,
+                            "August": 8,
+                            "September": 9,
+                            "Oktober": 10,
+                            "November": 11,
+                            "Dezember": 12,
+                        }
+                        parts = date_text.replace(".", "").split()
+                        day = int(parts[0])
+                        month = months_de.get(parts[1], 1)
+                        year_val = int(parts[2])
+                        date = datetime(year_val, month, day)
+                    except Exception:
+                        print(f"⚠️ Could not parse date: {date_text}, skipping")
+                        continue
+                total = (
+                    spans[3].inner_text().replace("EUR", "").replace("€", "").replace(".", "").replace(",", ".").strip()
+                )  # handle EUR format
                 orderid = spans[8].inner_text()
                 date_str = date.strftime("%Y%m%d")
+                # Sanitize orderid: remove newlines, limit length
+                orderid = orderid.replace("\n", " ").strip()[:60]
+                orderid = "".join(c for c in orderid if c.isalnum() or c in " -_").strip()
                 file_name = f"{target_dir}/{date_str}_{total}_amazon_{orderid}.pdf"
 
                 if date > end_date:
@@ -266,18 +354,45 @@ def run(playwright, args):
                     print(f"File [{file_name}] already exists")
                 else:
                     print(f"Saving file [{file_name}]")
-                    # Save
-                    link = "https://www.amazon.com/" + order_card.query_selector(
-                        'xpath=//a[contains(text(), "View invoice")]'
-                    ).get_attribute("href")
+                    # Save - find invoice link (German: "Rechnung", English: "View invoice")
+                    invoice_link = (
+                        order_card.query_selector('xpath=//a[contains(text(), "Rechnung")]')
+                        or order_card.query_selector('xpath=//a[contains(text(), "View invoice")]')
+                        or order_card.query_selector('xpath=//a[contains(text(), "Invoice")]')
+                    )
+                    if not invoice_link:
+                        print(f"  ⚠️ No invoice link found for order {file_name}, skipping")
+                        continue
+                    href = invoice_link.get_attribute("href")
+                    if href.startswith("http"):
+                        link = href
+                    else:
+                        link = "https://www.amazon.de/" + href
                     invoice_page = context.new_page()
                     invoice_page.goto(link)
+                    time.sleep(3)
+                    # Amazon shows intermediate dialog with "Rechnung" / "Bestellübersicht"
+                    # We need to click the actual "Rechnung" link on that page
+                    try:
+                        invoice_btn = (
+                            invoice_page.query_selector('a:has-text("Rechnung")')
+                            or invoice_page.query_selector('a[href*="invoice"]')
+                        )
+                        if invoice_btn:
+                            invoice_btn.click()
+                            time.sleep(3)
+                    except Exception as e:
+                        print(f"  ⚠️ Could not click invoice link on intermediate page: {e}")
                     invoice_page.pdf(
                         path=file_name,
-                        format="Letter",
+                        format="A4",
                         margin={"top": ".5in", "right": ".5in", "bottom": ".5in", "left": ".5in"},
                     )
                     invoice_page.close()
+                    print(f"  ✅ Saved!")
+
+            # Next page
+            page_index += 10
 
     # Close the browser
     context.close()
