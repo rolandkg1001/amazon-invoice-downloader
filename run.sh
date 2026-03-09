@@ -1,5 +1,5 @@
 #!/bin/bash
-cd ~/amazon-invoice-downloader
+cd ~/Projects/amazon-invoice-downloader
 uv run amazon-invoice-downloader "$@"
 echo ""
 echo "📂 Sortiere PDFs in Buchhaltungsordner..."

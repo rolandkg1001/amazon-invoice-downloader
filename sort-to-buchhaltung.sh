@@ -1,6 +1,6 @@
 #!/bin/bash
 BASE="/Users/koenigroland/Library/CloudStorage/SynologyDrive-praxis/Projekte/claude/Buchhaltung"
-SRC="$HOME/amazon-invoice-downloader/downloads"
+SRC="$HOME/Projects/amazon-invoice-downloader/downloads"
 
 count=0
 for pdf in "$SRC"/*.pdf; do

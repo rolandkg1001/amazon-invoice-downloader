@@ -204,7 +204,7 @@ def run(playwright, args):
 
     # Wait until we leave any auth/login page (2FA, CAPTCHA, signin)
     print(f"📍 URL after login attempt: {page.url}")
-    auth_pages = ['ap/mfa', 'ap/cvf', 'ap/challenge', 'ap/signin', 'ap/forgotpassword', 'ax/claim']
+    auth_pages = ['ap/mfa', 'ap/cvf', 'ap/challenge', 'ap/signin', 'ap/forgotpassword', 'ax/claim', 'chrome-error://']
     printed_msg = False
     waited = 0
     while waited < 300:
@@ -342,7 +342,60 @@ def run(playwright, args):
                 # Sanitize orderid: remove newlines, limit length
                 orderid = orderid.replace("\n", " ").strip()[:60]
                 orderid = "".join(c for c in orderid if c.isalnum() or c in " -_").strip()
-                file_name = f"{target_dir}/{date_str}_{total}_amazon_{orderid}.pdf"
+
+                # Extract product name(s) from order card for better filenames
+                product_name = ""
+                try:
+                    # Try multiple selectors - Amazon uses different structures
+                    product_links = (
+                        order_card.query_selector_all('a[href*="/dp/"]')
+                        or order_card.query_selector_all('a[href*="/gp/product/"]')
+                        or order_card.query_selector_all('.yohtmlc-product-title')
+                        or order_card.query_selector_all('[class*="product-title"]')
+                        or order_card.query_selector_all('[class*="item-title"]')
+                    )
+                    names = []
+                    if product_links:
+                        for pl in product_links:
+                            name = pl.inner_text().strip()
+                            if name and len(name) > 2 and name not in names:
+                                names.append(name)
+                    # Fallback: look for all links inside order card, filter out navigation/action links
+                    if not names:
+                        all_links = order_card.query_selector_all("a")
+                        skip_texts = [
+                            "rechnung", "invoice", "bestelldetails", "order details",
+                            "archiv", "stornieren", "cancel", "zurück", "return",
+                            "problem", "hilfe", "help", "nochmal", "bewert",
+                            "review", "schreib", "write", "tracking", "sendung",
+                            "artikel", "erneut", "kaufen", "buy again",
+                        ]
+                        for al in all_links:
+                            name = al.inner_text().strip()
+                            href = al.get_attribute("href") or ""
+                            if not name or len(name) < 4 or len(name) > 200:
+                                continue
+                            if any(s in name.lower() for s in skip_texts):
+                                continue
+                            # Product links typically go to /dp/ or /gp/ or have long titles
+                            if "/dp/" in href or "/gp/" in href or len(name) > 15:
+                                if name not in names:
+                                    names.append(name)
+                    if names:
+                        product_name = " + ".join(names)
+                        if len(product_name) > 80:
+                            product_name = product_name[:77] + "..."
+                except Exception:
+                    pass
+
+                # Sanitize product name for filename
+                if product_name:
+                    safe_name = "".join(c for c in product_name if c.isalnum() or c in " -_+äöüÄÖÜß.,").strip()
+                    file_name = f"{target_dir}/{date_str}_{total}_amazon_{safe_name}.pdf"
+                    print(f"  🏷️ Product: {product_name[:60]}")
+                else:
+                    file_name = f"{target_dir}/{date_str}_{total}_amazon_{orderid}.pdf"
+                    print(f"  🏷️ No product name found, using order ID: {orderid}")
 
                 if date > end_date:
                     continue
@@ -369,27 +422,143 @@ def run(playwright, args):
                     else:
                         link = "https://www.amazon.de/" + href
                     invoice_page = context.new_page()
+                    invoice_page.set_viewport_size({"width": 1920, "height": 1080})
                     invoice_page.goto(link)
                     time.sleep(3)
-                    # Amazon shows intermediate dialog with "Rechnung" / "Bestellübersicht"
-                    # We need to click the actual "Rechnung" link on that page
+                    # Amazon shows intermediate page with "Rechnung" / "Bestellübersicht"
+                    # Some orders show "Rechnung anfordern" - click to request generation
+                    # This opens an Amazon assistant/wizard that requires user interaction
                     try:
-                        invoice_btn = (
-                            invoice_page.query_selector('a:has-text("Rechnung")')
-                            or invoice_page.query_selector('a[href*="invoice"]')
-                        )
-                        if invoice_btn:
-                            invoice_btn.click()
+                        request_btns = invoice_page.query_selector_all('a:has-text("Rechnung anfordern"), a:has-text("Request invoice")')
+                        if request_btns:
+                            print(f"  📝 Found {len(request_btns)} 'Rechnung anfordern' button(s)")
+                            print(f"  👉 Clicking first request button...")
+                            try:
+                                request_btns[0].click()
+                                time.sleep(2)
+                            except Exception:
+                                pass
+                            # Wait for user to complete the Amazon invoice request assistant
+                            print()
+                            print(f"  ╔══════════════════════════════════════════════════════════╗")
+                            print(f"  ║  🧑 AKTION ERFORDERLICH                                ║")
+                            print(f"  ║  Amazon hat den Rechnungsassistenten geöffnet.          ║")
+                            print(f"  ║  Bitte im Browser die Rechnung beantragen.              ║")
+                            print(f"  ║  Danach hier Enter drücken zum Weitermachen.            ║")
+                            print(f"  ╚══════════════════════════════════════════════════════════╝")
+                            print()
+                            input("  ⏎ Enter drücken wenn fertig... ")
+                            print(f"  🔄 Seite wird neu geladen...")
+                            # Reload page to get updated links after invoice generation
+                            invoice_page.reload()
                             time.sleep(3)
                     except Exception as e:
-                        print(f"  ⚠️ Could not click invoice link on intermediate page: {e}")
-                    invoice_page.pdf(
-                        path=file_name,
-                        format="A4",
-                        margin={"top": ".5in", "right": ".5in", "bottom": ".5in", "left": ".5in"},
-                    )
+                        print(f"  ⚠️ Invoice request failed: {e}")
+                    # Find ALL invoice links (orders can have multiple invoices)
+                    # Exclude "Rechnung anfordern" links - only get actual download links
+                    all_rechnung_links = invoice_page.query_selector_all('a:has-text("Rechnung")')
+                    invoice_btns = [
+                        btn for btn in all_rechnung_links
+                        if "anfordern" not in btn.inner_text().lower()
+                        and "request" not in btn.inner_text().lower()
+                    ]
+                    if not invoice_btns:
+                        invoice_btns = invoice_page.query_selector_all('a[href*="invoice"]')
+                    if invoice_btns:
+                        print(f"  📄 Found {len(invoice_btns)} invoice(s)")
+                        for inv_idx, invoice_btn in enumerate(invoice_btns):
+                            invoice_href = invoice_btn.get_attribute("href")
+                            if not invoice_href:
+                                continue
+                            if not invoice_href.startswith("http"):
+                                invoice_href = "https://www.amazon.de" + invoice_href
+                            # Build filename - for multiple invoices, try to get
+                            # context from surrounding text (seller name, amount)
+                            if len(invoice_btns) > 1:
+                                inv_label = ""
+                                try:
+                                    # Try to get context from parent element (often contains seller/amount)
+                                    parent = invoice_btn.evaluate_handle("el => el.closest('div, tr, li, td')")
+                                    if parent:
+                                        parent_text = parent.inner_text().replace("\n", " ").strip()
+                                        # Extract useful info: look for seller or amount
+                                        # Remove generic words
+                                        for remove in ["Rechnung", "Invoice", "herunterladen", "download", "PDF"]:
+                                            parent_text = parent_text.replace(remove, "")
+                                        inv_label = parent_text.strip()[:60]
+                                        inv_label = "".join(c for c in inv_label if c.isalnum() or c in " -_äöüÄÖÜß.,").strip()
+                                except Exception:
+                                    pass
+                                if inv_label and len(inv_label) > 3:
+                                    inv_file_name = f"{target_dir}/{date_str}_{total}_amazon_{orderid}_{inv_label}.pdf"
+                                else:
+                                    inv_file_name = f"{target_dir}/{date_str}_{total}_amazon_{orderid}_{inv_idx + 1}.pdf"
+                            else:
+                                inv_file_name = file_name
+                            # Download the PDF directly via fetch (avoids PDF viewer capture)
+                            print(f"  📥 Downloading invoice {inv_idx + 1}/{len(invoice_btns)}...")
+                            inv_saved = False
+                            try:
+                                pdf_data = invoice_page.evaluate("""
+                                    async (url) => {
+                                        const response = await fetch(url, {credentials: 'include'});
+                                        const contentType = response.headers.get('content-type') || '';
+                                        const buffer = await response.arrayBuffer();
+                                        return {
+                                            contentType: contentType,
+                                            data: Array.from(new Uint8Array(buffer))
+                                        };
+                                    }
+                                """, invoice_href)
+                                if 'pdf' in pdf_data['contentType'].lower():
+                                    with open(inv_file_name, 'wb') as f:
+                                        f.write(bytes(pdf_data['data']))
+                                    inv_saved = True
+                                    print(f"  ✅ Saved (direct PDF download): {os.path.basename(inv_file_name)}")
+                                else:
+                                    print(f"  📄 HTML invoice, using page.pdf()...")
+                                    inv_page = context.new_page()
+                                    inv_page.set_viewport_size({"width": 1920, "height": 1080})
+                                    inv_page.goto(invoice_href)
+                                    time.sleep(3)
+                                    inv_page.pdf(
+                                        path=inv_file_name,
+                                        format="A4",
+                                        print_background=True,
+                                        margin={"top": ".5in", "right": ".5in", "bottom": ".5in", "left": ".5in"},
+                                    )
+                                    inv_page.close()
+                                    inv_saved = True
+                                    print(f"  ✅ Saved (page print): {os.path.basename(inv_file_name)}")
+                            except Exception as e:
+                                print(f"  ⚠️ Invoice {inv_idx + 1} download failed: {e}")
+                                if not inv_saved:
+                                    try:
+                                        inv_page = context.new_page()
+                                        inv_page.set_viewport_size({"width": 1920, "height": 1080})
+                                        inv_page.goto(invoice_href)
+                                        time.sleep(3)
+                                        inv_page.pdf(
+                                            path=inv_file_name,
+                                            format="A4",
+                                            print_background=True,
+                                            margin={"top": ".5in", "right": ".5in", "bottom": ".5in", "left": ".5in"},
+                                        )
+                                        inv_page.close()
+                                        print(f"  ✅ Saved (fallback): {os.path.basename(inv_file_name)}")
+                                    except Exception as e2:
+                                        print(f"  ❌ Could not save invoice {inv_idx + 1}: {e2}")
+                            sleep()
+                    else:
+                        print(f"  ⚠️ No invoice links found on intermediate page, saving page as-is")
+                        invoice_page.pdf(
+                            path=file_name,
+                            format="A4",
+                            print_background=True,
+                            margin={"top": ".5in", "right": ".5in", "bottom": ".5in", "left": ".5in"},
+                        )
+                        print(f"  ✅ Saved (page print)!")
                     invoice_page.close()
-                    print(f"  ✅ Saved!")
 
             # Next page
             page_index += 10
