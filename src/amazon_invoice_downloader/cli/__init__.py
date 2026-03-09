@@ -277,6 +277,9 @@ def run(playwright, args):
             print(f"📍 After direct nav: {page.evaluate('window.location.href')}")
         sleep()
 
+        # Collect orders with "Rechnung anfordern" for batch processing at the end
+        pending_requests = []
+
         # Page Loop - URL-based pagination (Weiter-Button unreliable on amazon.de)
         page_index = 0
         while True:
@@ -425,35 +428,30 @@ def run(playwright, args):
                     invoice_page.set_viewport_size({"width": 1920, "height": 1080})
                     invoice_page.goto(link)
                     time.sleep(3)
-                    # Amazon shows intermediate page with "Rechnung" / "Bestellübersicht"
-                    # Some orders show "Rechnung anfordern" - click to request generation
-                    # This opens an Amazon assistant/wizard that requires user interaction
+                    # Check if this order only has "Rechnung anfordern" (no existing invoice)
+                    # If so, collect for later — after all normal downloads are done,
+                    # we'll go through these and let the user request them one by one.
                     try:
                         request_btns = invoice_page.query_selector_all('a:has-text("Rechnung anfordern"), a:has-text("Request invoice")')
-                        if request_btns:
-                            print(f"  📝 Found {len(request_btns)} 'Rechnung anfordern' button(s)")
-                            print(f"  👉 Clicking first request button...")
-                            try:
-                                request_btns[0].click()
-                                time.sleep(2)
-                            except Exception:
-                                pass
-                            # Wait for user to complete the Amazon invoice request assistant
-                            print()
-                            print(f"  ╔══════════════════════════════════════════════════════════╗")
-                            print(f"  ║  🧑 AKTION ERFORDERLICH                                ║")
-                            print(f"  ║  Amazon hat den Rechnungsassistenten geöffnet.          ║")
-                            print(f"  ║  Bitte im Browser die Rechnung beantragen.              ║")
-                            print(f"  ║  Danach hier Enter drücken zum Weitermachen.            ║")
-                            print(f"  ╚══════════════════════════════════════════════════════════╝")
-                            print()
-                            input("  ⏎ Enter drücken wenn fertig... ")
-                            print(f"  🔄 Seite wird neu geladen...")
-                            # Reload page to get updated links after invoice generation
-                            invoice_page.reload()
-                            time.sleep(3)
+                        existing_invoices = [
+                            btn for btn in invoice_page.query_selector_all('a:has-text("Rechnung")')
+                            if "anfordern" not in btn.inner_text().lower()
+                            and "request" not in btn.inner_text().lower()
+                        ]
+                        if request_btns and not existing_invoices:
+                            # No downloadable invoice yet — save for later processing
+                            pending_requests.append({
+                                "date_str": date_str,
+                                "total": total,
+                                "product_name": product_name or orderid,
+                                "file_name": file_name,
+                                "url": invoice_page.url,
+                            })
+                            print(f"  📋 'Rechnung anfordern' — wird am Ende gesammelt abgearbeitet")
+                            invoice_page.close()
+                            continue
                     except Exception as e:
-                        print(f"  ⚠️ Invoice request failed: {e}")
+                        print(f"  ⚠️ Invoice request check failed: {e}")
                     # Find ALL invoice links (orders can have multiple invoices)
                     # Exclude "Rechnung anfordern" links - only get actual download links
                     all_rechnung_links = invoice_page.query_selector_all('a:has-text("Rechnung")')
@@ -562,6 +560,120 @@ def run(playwright, args):
 
             # Next page
             page_index += 10
+
+    # Process pending "Rechnung anfordern" orders
+    if pending_requests:
+        print()
+        print(f"  ╔══════════════════════════════════════════════════════════════╗")
+        print(f"  ║  📋 {len(pending_requests)} Bestellung(en) mit 'Rechnung anfordern'          ║")
+        print(f"  ║  Bitte jeweils im Browser die Rechnung beantragen.          ║")
+        print(f"  ║  Nach jeder Beantragung Enter drücken zum Fortfahren.       ║")
+        print(f"  ║  Oder 's' + Enter zum Überspringen einer Bestellung.        ║")
+        print(f"  ╚══════════════════════════════════════════════════════════════╝")
+        print()
+
+        # Also log to file for reference
+        log_file = os.path.join(target_dir, "rechnung_anfordern.txt")
+        with open(log_file, "w") as lf:
+            lf.write("# Bestellungen mit 'Rechnung anfordern'\n")
+            lf.write(f"# Erstellt: {datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n")
+            for pr in pending_requests:
+                lf.write(f"{pr['date_str']} | {pr['total']} EUR | {pr['product_name']} | {pr['url']}\n")
+
+        for idx, pr in enumerate(pending_requests):
+            print(f"  ── Rechnung anfordern {idx + 1}/{len(pending_requests)} ──")
+            print(f"  📅 {pr['date_str']}  💰 {pr['total']} EUR  🏷️ {pr['product_name'][:50]}")
+
+            # Open the intermediate page in the browser
+            req_page = context.new_page()
+            req_page.set_viewport_size({"width": 1920, "height": 1080})
+            req_page.goto(pr["url"])
+            time.sleep(2)
+
+            # Click the "Rechnung anfordern" button to start the Amazon assistant
+            try:
+                request_btns = req_page.query_selector_all('a:has-text("Rechnung anfordern"), a:has-text("Request invoice")')
+                if request_btns:
+                    request_btns[0].click()
+                    time.sleep(2)
+            except Exception:
+                pass
+
+            print(f"  👉 Bitte im Browser die Rechnung beantragen...")
+            user_input = input(f"  ⏎ Enter wenn fertig (oder 's' zum Überspringen): ").strip().lower()
+
+            if user_input == 's':
+                print(f"  ⏭️ Übersprungen")
+                req_page.close()
+                continue
+
+            # Reload and try to download the now-available invoice
+            print(f"  🔄 Seite wird neu geladen...")
+            req_page.reload()
+            time.sleep(3)
+
+            # Look for invoice links
+            all_rechnung_links = req_page.query_selector_all('a:has-text("Rechnung")')
+            invoice_btns = [
+                btn for btn in all_rechnung_links
+                if "anfordern" not in btn.inner_text().lower()
+                and "request" not in btn.inner_text().lower()
+            ]
+            if not invoice_btns:
+                invoice_btns = req_page.query_selector_all('a[href*="invoice"]')
+
+            if invoice_btns:
+                print(f"  📄 Found {len(invoice_btns)} invoice(s)")
+                for inv_idx, invoice_btn in enumerate(invoice_btns):
+                    invoice_href = invoice_btn.get_attribute("href")
+                    if not invoice_href:
+                        continue
+                    if not invoice_href.startswith("http"):
+                        invoice_href = "https://www.amazon.de" + invoice_href
+
+                    inv_file_name = pr["file_name"]
+                    if len(invoice_btns) > 1:
+                        base, ext = os.path.splitext(inv_file_name)
+                        inv_file_name = f"{base}_{inv_idx + 1}{ext}"
+
+                    print(f"  📥 Downloading invoice {inv_idx + 1}/{len(invoice_btns)}...")
+                    try:
+                        pdf_data = req_page.evaluate("""
+                            async (url) => {
+                                const response = await fetch(url, {credentials: 'include'});
+                                const contentType = response.headers.get('content-type') || '';
+                                const buffer = await response.arrayBuffer();
+                                return {
+                                    contentType: contentType,
+                                    data: Array.from(new Uint8Array(buffer))
+                                };
+                            }
+                        """, invoice_href)
+                        if 'pdf' in pdf_data['contentType'].lower():
+                            with open(inv_file_name, 'wb') as f:
+                                f.write(bytes(pdf_data['data']))
+                            print(f"  ✅ Saved: {os.path.basename(inv_file_name)}")
+                        else:
+                            inv_page = context.new_page()
+                            inv_page.set_viewport_size({"width": 1920, "height": 1080})
+                            inv_page.goto(invoice_href)
+                            time.sleep(3)
+                            inv_page.pdf(
+                                path=inv_file_name,
+                                format="A4",
+                                print_background=True,
+                                margin={"top": ".5in", "right": ".5in", "bottom": ".5in", "left": ".5in"},
+                            )
+                            inv_page.close()
+                            print(f"  ✅ Saved (page print): {os.path.basename(inv_file_name)}")
+                    except Exception as e:
+                        print(f"  ❌ Download failed: {e}")
+            else:
+                print(f"  ⚠️ Keine Rechnungs-Links gefunden — Rechnung evtl. noch nicht bereit")
+
+            req_page.close()
+
+        print(f"\n  📋 Protokoll gespeichert: {log_file}")
 
     # Close the browser
     context.close()
