@@ -8,7 +8,8 @@ Amazon Invoice Downloader
 Usage:
   amazon-invoice-downloader.py \
     [--email=<email> --password=<password>] \
-    [--year=<YYYY> | --date-range=<YYYYMMDD-YYYYMMDD>]
+    [--year=<YYYY> | --date-range=<YYYYMMDD-YYYYMMDD>] \
+    [--request-only]
   amazon-invoice-downloader.py (-h | --help)
   amazon-invoice-downloader.py (-v | --version)
 
@@ -23,6 +24,7 @@ Date Range Options:
 Options:
   -h --help                Show this screen.
   -v --version             Show version.
+  --request-only           Nur 'Rechnung anfordern'-Bestellungen abarbeiten (normale Downloads überspringen).
 
 Examples:
   amazon-invoice-downloader.py --year=2022  # Uses .env file or env vars $AMAZON_EMAIL and $AMAZON_PASSWORD
@@ -113,6 +115,9 @@ def run(playwright, args):
         start_date, end_date = year + "0101", year + "1231"
     start_date = datetime.strptime(start_date, "%Y%m%d")
     end_date = datetime.strptime(end_date, "%Y%m%d")
+
+    # Request-only mode: skip normal downloads, only process "Rechnung anfordern"
+    request_only = args.get("--request-only", False)
 
     # Ensure the location exists for where we will save our downloads
     target_dir = os.getcwd() + "/" + "downloads"
@@ -280,6 +285,11 @@ def run(playwright, args):
         # Collect orders with "Rechnung anfordern" for batch processing at the end
         pending_requests = []
 
+        if request_only:
+            print()
+            print(f"  ⚡ REQUEST-ONLY Modus: Nur 'Rechnung anfordern'-Bestellungen werden gesucht")
+            print()
+
         # Page Loop - URL-based pagination (Weiter-Button unreliable on amazon.de)
         page_index = 0
         while True:
@@ -407,9 +417,16 @@ def run(playwright, args):
                     break
 
                 if os.path.isfile(file_name):
-                    print(f"File [{file_name}] already exists")
-                else:
-                    print(f"Saving file [{file_name}]")
+                    if not request_only:
+                        print(f"File [{file_name}] already exists")
+                    # File exists = invoice already downloaded, skip in all modes
+                    continue
+
+                if True:
+                    if request_only:
+                        print(f"  🔍 Checking for 'Rechnung anfordern'...")
+                    else:
+                        print(f"Saving file [{file_name}]")
                     # Save - find invoice link (German: "Rechnung", English: "View invoice")
                     invoice_link = (
                         order_card.query_selector('xpath=//a[contains(text(), "Rechnung")]')
@@ -417,7 +434,8 @@ def run(playwright, args):
                         or order_card.query_selector('xpath=//a[contains(text(), "Invoice")]')
                     )
                     if not invoice_link:
-                        print(f"  ⚠️ No invoice link found for order {file_name}, skipping")
+                        if not request_only:
+                            print(f"  ⚠️ No invoice link found for order {file_name}, skipping")
                         continue
                     href = invoice_link.get_attribute("href")
                     if href.startswith("http"):
@@ -447,11 +465,27 @@ def run(playwright, args):
                                 "file_name": file_name,
                                 "url": invoice_page.url,
                             })
+                            # Also log immediately to file (in case process dies)
+                            log_file = os.path.join(target_dir, "rechnung_anfordern.txt")
+                            log_line = f"{date_str} | {total} EUR | {product_name or orderid} | {invoice_page.url}"
+                            existing_lines = set()
+                            if os.path.exists(log_file):
+                                with open(log_file, "r") as lf:
+                                    existing_lines = set(lf.read().splitlines())
+                            if log_line not in existing_lines:
+                                with open(log_file, "a") as lf:
+                                    if not existing_lines:
+                                        lf.write("# Bestellungen mit 'Rechnung anfordern'\n\n")
+                                    lf.write(log_line + "\n")
                             print(f"  📋 'Rechnung anfordern' — wird am Ende gesammelt abgearbeitet")
                             invoice_page.close()
                             continue
                     except Exception as e:
                         print(f"  ⚠️ Invoice request check failed: {e}")
+                    # In request-only mode, skip actual downloads
+                    if request_only:
+                        invoice_page.close()
+                        continue
                     # Find ALL invoice links (orders can have multiple invoices)
                     # Exclude "Rechnung anfordern" links - only get actual download links
                     all_rechnung_links = invoice_page.query_selector_all('a:has-text("Rechnung")')
@@ -572,13 +606,10 @@ def run(playwright, args):
         print(f"  ╚══════════════════════════════════════════════════════════════╝")
         print()
 
-        # Also log to file for reference
+        # Log file was already written inline during the main loop
         log_file = os.path.join(target_dir, "rechnung_anfordern.txt")
-        with open(log_file, "w") as lf:
-            lf.write("# Bestellungen mit 'Rechnung anfordern'\n")
-            lf.write(f"# Erstellt: {datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n")
-            for pr in pending_requests:
-                lf.write(f"{pr['date_str']} | {pr['total']} EUR | {pr['product_name']} | {pr['url']}\n")
+        print(f"  📋 Protokoll: {log_file}")
+        print()
 
         for idx, pr in enumerate(pending_requests):
             print(f"  ── Rechnung anfordern {idx + 1}/{len(pending_requests)} ──")
