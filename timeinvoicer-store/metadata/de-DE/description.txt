@@ -1,0 +1,78 @@
+TimeInvoicer ist eine Praxis-Verwaltungs- und Abrechnungssoftware. Die App ist kein Medizinprodukt und stellt keine Diagnosen, Behandlungen oder therapeutische Empfehlungen zur Verfügung. Für medizinische Fragen wende dich an qualifizierte Gesundheitsfachpersonen.
+
+Praxissoftware für Psychotherapie, Psychologie und Beratung in Österreich. TimeInvoicer macht aus Kalenderterminen fertige Honorarnoten, Rechnungen, Mitschriften, Kassenanträge und Zeitbestätigungen. Ohne PC-Pflicht, ohne Praxis-Cloud und ohne doppelte Termineingabe.
+
+WAS TIMEINVOICER BESONDERS MACHT
+
+• Kein PC nötig – alles direkt am iPhone oder iPad
+• Rechnung und Honorarnote direkt aus Kalender-Terminen erstellen
+• Mitschrift und Sitzungsnotizen zur Stunde erfassen
+• ICD-10-Codeverzeichnis mit Suche und Favoriten
+• Kassenantrag und Praxisdokumente vorbereiten
+• PDF-Honorarnote mit Logo, Bankdaten und Signatur
+• Halbe Einheiten wie 0,5, 1,5 und 2,5 korrekt abrechnen
+• Offene Rechnungen, Umsatz und Ausgaben im Blick behalten
+• Lokale Datenhaltung ohne Cloud-Pflicht
+
+DEIN KALENDER = DEINE RECHNUNG
+
+Viele Praxisprogramme verlangen, dass Termine noch einmal in der Software gepflegt werden. TimeInvoicer nutzt deinen bestehenden Kalender als Datenquelle. Ein Termin enthält bereits Datum, Dauer, Klient:in und Leistung. Daraus entsteht deine Rechnung oder Honorarnote – mit einem einzigen Tipp.
+
+LEISTUNG WIRD AUTOMATISCH ERKANNT
+
+TimeInvoicer liest die Leistungsart aus dem Text deines Kalendereintrags und schlägt die passende Abrechnungsposition vor. Du bestätigst nur noch. Es findet keine Auswertung medizinischer Inhalte statt, sondern eine reine Zuordnung zu deinen eigenen Tarifen.
+
+FÜR PRAXEN IN ÖSTERREICH
+
+• Honorarnoten für Wahlleistungen
+• ÖGK-, BVAEB- und SVS-Tarife hinterlegt und laufend aktualisiert
+• ICD-10-Abrechnungscodes zur eigenständigen Auswahl
+• Sammelrechnungen und Zeitbestätigungen erstellen
+• EPC-QR-Code für Banküberweisungen
+• ELDA-WAH-XML-Export für die SV-Abrechnung
+• CSV-Steuerexport für BMD, RZL und DATEV
+• Vorlagen für Psychotherapie, Psychologie, Beratung, Wahlpraxis und weitere Fachbereiche
+
+MITSCHRIFT DIREKT ZUR STUNDE
+
+Mitschriften erfasst du direkt zur passenden Stunde. So bleiben Termin, Dokumentation und Abrechnung in einem Ablauf verbunden – separat und verschlüsselt auf dem Gerät gespeichert.
+
+SAMMELRECHNUNG IN SEKUNDEN
+
+Monatsende? Wähle Klient:in und Zeitraum – TimeInvoicer erstellt die Sammelrechnung über alle Sitzungen. PDF-Export, Druck oder Versand per E-Mail. Fertig.
+
+STATISTIK UND ÜBERBLICK
+
+Monatsumsatz, häufigste Leistungen und die Verteilung auf die SV-Träger – dein Dashboard gibt dir den Überblick.
+
+DATENSCHUTZ UND KONTROLLE
+
+TimeInvoicer ist lokal-first aufgebaut. Deine Praxisdaten bleiben auf deinem Gerät. Es gibt keine Cloud-Pflicht und kein Nutzerkonto für die Grundfunktionen. Das ist besonders relevant, wenn du mit sensiblen Klient:innen- und Praxisdaten arbeitest.
+
+TYPISCHE ANWENDUNGSFÄLLE
+
+• Nach einem Termin sofort eine Honorarnote erstellen
+• Mitschrift zur Stunde dokumentieren
+• ICD-10-Abrechnungscode suchen und übernehmen
+• Kassenantrag oder Praxisdokument vorbereiten
+• Monatsübersicht für offene Rechnungen prüfen
+• PDF-Rechnung per E-Mail oder Messenger teilen
+
+GEEIGNET FÜR
+
+Psychotherapeut:innen, klinische Psycholog:innen, Gesundheitspsycholog:innen, Berater:innen, Coaches und Einzelunternehmer:innen, die Termine abrechnen.
+
+GRATIS STARTEN
+
+Starte kostenlos mit bis zu 3 Klient:innen. Wenn du mehr brauchst, schaltest du Pro frei – ab 4,99 Euro pro Monat.
+
+MADE IN AUSTRIA
+
+Entwickelt in Österreich, für österreichische Praxen.
+
+Mehr Zeit für deine Klient:innen. Weniger Papierkram. TimeInvoicer.
+
+RECHTLICHES
+Nutzungsbedingungen (EULA): https://timeinvoicer.at/agb
+Apple Standard-EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Datenschutz: https://timeinvoicer.at/datenschutz/

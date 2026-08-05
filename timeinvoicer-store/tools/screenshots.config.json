@@ -1,0 +1,183 @@
+{
+  "_comment": "Overlay-Konfiguration für die App-Store-Screenshots. Design 1:1 aus dem Google-Play-Listing von at.insglueck.timeinvoicer übernommen (Farben, Bänder, Typo-Proportionen). Texte, die wörtlich aus Play stammen, sind mit \"source\": \"play\" markiert.",
+
+  "design": {
+    "headerGradientTop": "#004E44",
+    "headerGradientBottom": "#007667",
+    "headlineColor": "#FFFFFF",
+    "sublineColor": "#FFCC50",
+    "bandColor": "#003A34",
+    "chipBg": "#FFFFFF",
+    "chipFg": "#003A34",
+    "footerColor": "rgba(255,255,255,0.92)",
+    "_measured_from": "play/shots/play_03.png @ 1080x1920"
+  },
+
+  "common": {
+    "bandHeading": "Was TimeInvoicer anders macht",
+    "footer": "Kein PC. Keine Cloud-Pflicht. Lokal auf deinem Gerät.",
+    "_source": "play"
+  },
+
+  "targets": [
+    { "name": "iphone-6.9", "width": 1290, "height": 2796, "scale": 1.00, "device": "iphone" },
+    { "name": "iphone-6.5", "width": 1284, "height": 2778, "scale": 1.00, "device": "iphone" },
+    { "name": "ipad-13",    "width": 2064, "height": 2752, "scale": 0.78, "device": "ipad"  }
+  ],
+
+  "screens": {
+    "iphone": [
+      {
+        "file": "iphone_01-rechnung-in-10-sekunden.png",
+        "headline": "Rechnung in 10 Sekunden",
+        "subline": "Termine direkt aus dem Kalender abrechnen",
+        "chips": ["Kein PC nötig", "Keine Cloud-Pflicht", "Direkt am Handy"],
+        "focus": "top"
+      },
+      {
+        "file": "iphone_02-termin-wird-rechnung.png",
+        "headline": "Aus Termin wird Rechnung",
+        "subline": "Für Praxen, Beratung und EPU",
+        "chips": ["Kein PC nötig", "Lokal & sicher", "Für Terminarbeit"],
+        "focus": "center",
+        "source": "play"
+      },
+      {
+        "file": "iphone_03-pdf-sofort-teilen.png",
+        "headline": "PDF fertig senden",
+        "subline": "Weniger Verwaltung nach dem Termin",
+        "chips": ["Ohne PC", "Daten bleiben lokal", "Sofort teilen"],
+        "focus": "center",
+        "source": "play"
+      },
+      {
+        "file": "iphone_04-klient-leistung-gefuehrt.png",
+        "headline": "Kontakt & Leistung",
+        "subline": "Alles Wichtige an einem Ort",
+        "chips": ["Bestehender Kalender", "Keine Cloud-Pflicht", "Direkt am Handy"],
+        "focus": "top",
+        "source": "play"
+      },
+      {
+        "file": "iphone_05-ohne-cloud.png",
+        "headline": "Ohne Cloud-Zwang",
+        "subline": "Kalender, Kontakte und Abrechnung bleiben am Gerät",
+        "chips": ["Lokal gespeichert", "Kein Account nötig", "DSGVO-konform"],
+        "focus": "top"
+      },
+      {
+        "file": "iphone_06-von-profis-gedacht.png",
+        "headline": "Schneller abrechnen",
+        "subline": "Vorlagen, Codes und offene Beträge",
+        "chips": ["Alles im Termin", "Lokal verschlüsselt", "Für Psycholog:innen & Therapeut:innen"],
+        "focus": "top",
+        "source": "play"
+      },
+      {
+        "file": "iphone_07-kassaantraege.png",
+        "headline": "Kassenanträge vorbereiten",
+        "subline": "ÖGK, BVAEB und SVS hinterlegt",
+        "chips": ["SV-Tarife aktuell", "ELDA WAH XML", "Weniger Tippen"],
+        "focus": "top"
+      },
+      {
+        "file": "iphone_08-mitschrift.png",
+        "headline": "Mitschrift zur Stunde",
+        "subline": "Dokumentation und Abrechnung in einem Ablauf",
+        "chips": ["Termin verknüpft", "Lokal verschlüsselt", "Nachvollziehbar"],
+        "focus": "top"
+      },
+      {
+        "file": "iphone_09-zeitbestaetigung.png",
+        "headline": "Zeitbestätigung auf Knopfdruck",
+        "subline": "Nachweise ohne Nachrechnen",
+        "chips": ["Aus dem Kalender", "PDF sofort", "Sammelnachweis"],
+        "focus": "top"
+      },
+      {
+        "file": "iphone_10-befunde.png",
+        "headline": "Dokumente & Vorlagen",
+        "subline": "Wiederkehrende Schreiben schneller erledigen",
+        "chips": ["Eigene Vorlagen", "Mit Logo & Signatur", "PDF-Export"],
+        "focus": "top",
+        "_compliance": "Bewusst 'Dokumente' statt 'Befunde' — Wörterbuch timeinvoicer-playstore-compliance: 'Befund erstellen' -> 'Dokument erstellen'."
+      }
+    ],
+
+    "ipad": [
+      {
+        "file": "ipad_01-rechnung-in-10-sekunden.png",
+        "headline": "Rechnung in 10 Sekunden",
+        "subline": "Termine direkt aus dem Kalender abrechnen",
+        "chips": ["Kein PC nötig", "Keine Cloud-Pflicht", "Direkt am Tablet"],
+        "focus": "top"
+      },
+      {
+        "file": "ipad_02-termin-wird-rechnung.png",
+        "headline": "Aus Termin wird Rechnung",
+        "subline": "Für Praxen, Beratung und EPU",
+        "chips": ["Kein PC nötig", "Lokal & sicher", "Für Terminarbeit"],
+        "focus": "center",
+        "source": "play"
+      },
+      {
+        "file": "ipad_03-pdf-sofort-teilen.png",
+        "headline": "PDF fertig senden",
+        "subline": "Weniger Verwaltung nach dem Termin",
+        "chips": ["Ohne PC", "Daten bleiben lokal", "Sofort teilen"],
+        "focus": "center",
+        "source": "play"
+      },
+      {
+        "file": "ipad_04-sicher-lokal.png",
+        "headline": "Sicher & lokal",
+        "subline": "Deine Praxisdaten bleiben auf dem Gerät",
+        "chips": ["Ohne Cloud-Pflicht", "Kein Account nötig", "DSGVO-konform"],
+        "focus": "top"
+      },
+      {
+        "file": "ipad_05-praxisnah.png",
+        "headline": "Praxisnah gebaut",
+        "subline": "Für Einzelpraxen in Österreich",
+        "chips": ["ÖGK, BVAEB, SVS", "Halbe Einheiten", "Honorarnoten"],
+        "focus": "top"
+      },
+      {
+        "file": "ipad_06-offene-honorare.png",
+        "headline": "Offene Honorare im Blick",
+        "subline": "Umsatz, Ausgaben und offene Beträge",
+        "chips": ["Monatsübersicht", "CSV-Steuerexport", "EPC-QR-Code"],
+        "focus": "top"
+      },
+      {
+        "file": "ipad_07-kassaantraege.png",
+        "headline": "Kassenanträge vorbereiten",
+        "subline": "ÖGK, BVAEB und SVS hinterlegt",
+        "chips": ["SV-Tarife aktuell", "ELDA WAH XML", "Weniger Tippen"],
+        "focus": "top"
+      },
+      {
+        "file": "ipad_08-mitschrift.png",
+        "headline": "Mitschrift zur Stunde",
+        "subline": "Dokumentation und Abrechnung in einem Ablauf",
+        "chips": ["Termin verknüpft", "Lokal verschlüsselt", "Nachvollziehbar"],
+        "focus": "top"
+      },
+      {
+        "file": "ipad_09-zeitbestaetigung.png",
+        "headline": "Zeitbestätigung auf Knopfdruck",
+        "subline": "Nachweise ohne Nachrechnen",
+        "chips": ["Aus dem Kalender", "PDF sofort", "Sammelnachweis"],
+        "focus": "top"
+      },
+      {
+        "file": "ipad_10-befunde.png",
+        "headline": "Dokumente & Vorlagen",
+        "subline": "Wiederkehrende Schreiben schneller erledigen",
+        "chips": ["Eigene Vorlagen", "Mit Logo & Signatur", "PDF-Export"],
+        "focus": "top",
+        "_compliance": "Bewusst 'Dokumente' statt 'Befunde'."
+      }
+    ]
+  }
+}

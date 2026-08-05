@@ -1,0 +1,15 @@
+Termine:
+• Einheiten-Anzahl verschiebt nicht mehr das Terminende
+• Preisanpassungen stehen jetzt in der Zusammenfassung
+• Zurück aus einem Termin öffnet nicht mehr den Datum-Dialog
+• Wischen in der Terminliste geht wieder
+• „OK" im Datum-Picker springt auf heute
+
+Rechnungen:
+• Verrechnungseinheiten blockieren das Speichern nicht mehr
+• Signatur wieder transparent
+
+Weiteres:
+• SMS-/E-Mail-Text geht beim Einrichten nicht mehr verloren
+• Mitschrift direkt im Termin erreichbar
+• Absturz auf dem iPad nach „Profil ergänzen" behoben
