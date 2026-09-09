@@ -1,0 +1,510 @@
+<title>TimeInvoicer Marktposition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;450;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#F5F7F6;
+  --panel:#FFFFFF;
+  --panel-2:#EDF1F0;
+  --rule:#D3DCDA;
+  --rule-soft:#E3EAE8;
+  --text:#16211F;
+  --text-2:#4A5B58;
+  --text-3:#778784;
+  --accent:#0F6A67;
+  --accent-soft:#D7E8E6;
+  --absent:#A2402E;
+  --absent-soft:#F2DDD8;
+  --warn:#9A711A;
+  --good:#3A7550;
+  --bar:#7FADAA;
+  --bar-own:#0F6A67;
+  --shadow:0 1px 2px rgba(22,33,31,.06), 0 8px 24px -16px rgba(22,33,31,.28);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E1817;
+    --panel:#152220;
+    --panel-2:#1B2A28;
+    --rule:#2C3D3A;
+    --rule-soft:#223330;
+    --text:#E6EDEB;
+    --text-2:#A7B8B5;
+    --text-3:#7C8D8A;
+    --accent:#5FBEB8;
+    --accent-soft:#1D3634;
+    --absent:#E08770;
+    --absent-soft:#37211C;
+    --warn:#D3A64A;
+    --good:#6FB98A;
+    --bar:#3E6260;
+    --bar-own:#5FBEB8;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E1817;
+  --panel:#152220;
+  --panel-2:#1B2A28;
+  --rule:#2C3D3A;
+  --rule-soft:#223330;
+  --text:#E6EDEB;
+  --text-2:#A7B8B5;
+  --text-3:#7C8D8A;
+  --accent:#5FBEB8;
+  --accent-soft:#1D3634;
+  --absent:#E08770;
+  --absent-soft:#37211C;
+  --warn:#D3A64A;
+  --good:#6FB98A;
+  --bar:#3E6260;
+  --bar-own:#5FBEB8;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--text);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px 96px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* ---------- masthead ---------- */
+.masthead{
+  border-bottom:2px solid var(--text);
+  padding:56px 0 20px;
+  display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between;
+}
+.masthead h1{
+  font-family:"Newsreader",Georgia,serif;
+  font-weight:500;
+  font-size:clamp(2.1rem,5.4vw,3.15rem);
+  line-height:1.04;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.masthead h1 em{font-style:italic;color:var(--accent)}
+.stamp{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-3);text-align:right;line-height:1.9;flex-shrink:0;
+}
+.stamp b{color:var(--text-2);font-weight:500}
+
+/* ---------- verdict ---------- */
+.verdict{
+  margin-top:36px;padding:32px 34px;
+  background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--accent);
+  box-shadow:var(--shadow);
+}
+.verdict .kicker{
+  font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:14px;
+}
+.verdict p{
+  font-family:"Newsreader",Georgia,serif;font-size:1.32rem;line-height:1.5;
+  margin:0 0 14px;max-width:62ch;color:var(--text);
+}
+.verdict p:last-child{margin-bottom:0;font-size:1.02rem;font-family:"IBM Plex Sans",sans-serif;color:var(--text-2);line-height:1.65}
+
+/* ---------- sections ---------- */
+section{margin-top:64px}
+h2{
+  font-family:"Newsreader",Georgia,serif;font-weight:500;
+  font-size:1.72rem;letter-spacing:-.01em;margin:0 0 6px;text-wrap:balance;
+}
+.dek{color:var(--text-2);margin:0 0 26px;max-width:66ch}
+p{max-width:68ch}
+.h-num{
+  font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.14em;
+  color:var(--text-3);text-transform:uppercase;display:block;margin-bottom:8px;
+}
+
+/* ---------- presence matrix ---------- */
+.matrix-scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--panel);box-shadow:var(--shadow)}
+table.matrix{border-collapse:collapse;width:100%;min-width:620px;font-size:.9rem}
+table.matrix th,table.matrix td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--rule-soft)}
+table.matrix thead th{
+  font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-3);font-weight:500;
+  border-bottom:1px solid var(--rule);vertical-align:bottom;line-height:1.4;
+}
+table.matrix thead th:not(:first-child),table.matrix td:not(:first-child){text-align:center;width:132px}
+table.matrix tbody tr:last-child td{border-bottom:none}
+table.matrix td:first-child{font-weight:450}
+tr.own{background:var(--absent-soft)}
+tr.own td:first-child{font-weight:600;color:var(--absent)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bar)}
+.dot.no{background:none;border:1.5px solid var(--absent);width:8px;height:8px}
+.legend{
+  display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--text-3);
+}
+.legend span{display:flex;align-items:center;gap:7px}
+
+/* ---------- price ladder ---------- */
+.ladder{border:1px solid var(--rule);background:var(--panel);box-shadow:var(--shadow);padding:26px 28px 16px;overflow-x:auto}
+.ladder-inner{min-width:560px}
+.row{display:grid;grid-template-columns:140px 1fr 108px;align-items:center;gap:14px;padding:5px 0}
+.row .name{font-size:.87rem;color:var(--text-2);text-align:right;line-height:1.3}
+.row.own .name{color:var(--accent);font-weight:600}
+.track{position:relative;height:16px;border-left:1px solid var(--rule-soft)}
+.track::after{
+  content:"";position:absolute;inset:7px 0 auto 0;height:1px;background:var(--rule-soft);
+}
+.seg{
+  position:absolute;top:4px;height:9px;background:var(--bar);border-radius:1px;
+}
+.row.own .seg{background:var(--bar-own)}
+.seg.point{width:9px !important;border-radius:50%;margin-left:-4px}
+.row .val{
+  font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--text-3);
+  font-variant-numeric:tabular-nums;
+}
+.row.own .val{color:var(--accent);font-weight:500}
+.axis{display:grid;grid-template-columns:140px 1fr 108px;gap:14px;margin-top:10px;padding-top:10px;border-top:1px solid var(--rule)}
+.axis-ticks{position:relative;height:18px}
+.axis-ticks span{
+  position:absolute;transform:translateX(-50%);
+  font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--text-3);
+  font-variant-numeric:tabular-nums;
+}
+.axis-ticks span:first-child{transform:none}
+.axis-ticks span:last-child{transform:translateX(-100%)}
+
+/* ---------- generic data table ---------- */
+.tbl-scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--panel);box-shadow:var(--shadow)}
+table.data{border-collapse:collapse;width:100%;min-width:560px;font-size:.9rem}
+table.data th,table.data td{padding:11px 16px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+table.data thead th{
+  font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-3);font-weight:500;border-bottom:1px solid var(--rule);
+}
+table.data tbody tr:last-child td{border-bottom:none}
+table.data td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+.flag{
+  font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.06em;
+  text-transform:uppercase;padding:2px 7px;border-radius:2px;white-space:nowrap;
+}
+.flag.ok{background:var(--accent-soft);color:var(--accent)}
+.flag.check{background:var(--absent-soft);color:var(--absent)}
+
+/* ---------- store metrics ---------- */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);box-shadow:var(--shadow)}
+.metric{background:var(--panel);padding:20px 22px}
+.metric .k{
+  font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-3);margin-bottom:9px;
+}
+.metric .v{
+  font-family:"Newsreader",Georgia,serif;font-size:2rem;line-height:1;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+}
+.metric .v.zero{color:var(--absent)}
+.metric .n{font-size:.78rem;color:var(--text-3);margin-top:8px;line-height:1.4}
+
+/* ---------- decisions ---------- */
+ol.decisions{list-style:none;padding:0;margin:0;counter-reset:d;
+  display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);box-shadow:var(--shadow)}
+ol.decisions li{
+  counter-increment:d;background:var(--panel);padding:22px 26px 22px 62px;position:relative;
+}
+ol.decisions li::before{
+  content:counter(d);position:absolute;left:24px;top:22px;
+  font-family:"IBM Plex Mono",monospace;font-size:.8rem;font-weight:600;color:var(--accent);
+}
+ol.decisions h3{margin:0 0 6px;font-size:1.02rem;font-weight:600;letter-spacing:-.005em}
+ol.decisions p{margin:0;color:var(--text-2);font-size:.93rem;max-width:66ch}
+.dep{
+  display:inline-block;margin-top:9px;font-family:"IBM Plex Mono",monospace;
+  font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--warn);
+}
+
+/* ---------- watchlist ---------- */
+ul.watch{list-style:none;padding:0;margin:0;display:grid;gap:0}
+ul.watch li{
+  padding:13px 0 13px 26px;border-bottom:1px solid var(--rule-soft);
+  position:relative;color:var(--text-2);font-size:.94rem;max-width:74ch;
+}
+ul.watch li:last-child{border-bottom:none}
+ul.watch li::before{
+  content:"";position:absolute;left:2px;top:21px;width:7px;height:7px;
+  border:1.5px solid var(--rule);border-radius:50%;
+}
+
+footer{
+  margin-top:72px;padding-top:22px;border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--text-3);
+  line-height:1.9;
+}
+a{color:var(--accent)}
+a:focus-visible,li:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media (prefers-reduced-motion:no-preference){
+  .seg:not(.point){animation:grow .5s cubic-bezier(.2,.7,.3,1) both}
+  @keyframes grow{from{transform:scaleX(.2);transform-origin:left}to{transform:scaleX(1)}}
+}
+@media (max-width:620px){
+  .row,.axis{grid-template-columns:96px 1fr 92px;gap:10px}
+  .row .name{font-size:.8rem}
+  .verdict{padding:24px 22px}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <h1>Sichtbar für<br>niemanden, <em>kopiert<br>von niemandem</em></h1>
+    <div class="stamp">
+      Marktposition TimeInvoicer<br>
+      <b>KW 37 · 09.09.2026</b><br>
+      Wochenlauf 01 · kein Vorjahr­vergleich
+    </div>
+  </header>
+
+  <div class="verdict">
+    <div class="kicker">Gesamturteil</div>
+    <p>Der Burggraben aus der März-Analyse — Systemkalender als Datenquelle, native App statt Browser — ist nach sechs Monaten unangegriffen. Keiner der inzwischen zwölf bekannten Wettbewerber hat ihn kopiert.</p>
+    <p>Gleichzeitig kommt TimeInvoicer in keinem der drei Vergleichsartikel vor, über die Therapeut:innen in Österreich ihre Software finden. Zwei davon sind in den letzten sieben Tagen erschienen, beide von Wettbewerbern betrieben. Die Kategorie wird gerade ohne dich definiert.</p>
+  </div>
+
+  <section>
+    <span class="h-num">01 — Kategorie-Sichtbarkeit</span>
+    <h2>Wer die Kategorie beschreibt, entscheidet, wer in ihr existiert</h2>
+    <p class="dek">Drei Artikel bestimmen derzeit, welche Anbieter ein suchender Therapeut überhaupt zu sehen bekommt. Zwei stammen von Wettbewerbern — sie werden TimeInvoicer nicht freiwillig aufnehmen.</p>
+
+    <div class="matrix-scroll">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>Anbieter</th>
+            <th>freudio<br>„10 Anbieter"<br>08.09.</th>
+            <th>Theradocx<br>„Österreich 2026"<br>02.09.</th>
+            <th>praxissoftware-<br>psychotherapie.com<br>laufend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>synaptos</td><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td></tr>
+          <tr><td>appointmed</td><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td></tr>
+          <tr><td>freudio</td><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td></tr>
+          <tr><td>ZEIPSY</td><td><span class="dot"></span></td><td><span class="dot"></span></td><td></td></tr>
+          <tr><td>TheraPsy</td><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td></tr>
+          <tr><td>Psido</td><td><span class="dot"></span></td><td><span class="dot"></span></td><td></td></tr>
+          <tr><td>Theradocx</td><td><span class="dot"></span></td><td><span class="dot"></span></td><td></td></tr>
+          <tr><td>treatsoft</td><td><span class="dot"></span></td><td></td><td></td></tr>
+          <tr><td>Latido</td><td><span class="dot"></span></td><td></td><td></td></tr>
+          <tr><td>onono</td><td><span class="dot"></span></td><td></td><td></td></tr>
+          <tr><td>VIA HealthTech</td><td></td><td><span class="dot"></span></td><td><span class="dot"></span></td></tr>
+          <tr><td>PlaynVoice</td><td></td><td><span class="dot"></span></td><td></td></tr>
+          <tr class="own"><td>TimeInvoicer</td>
+            <td><span class="dot no"></span></td><td><span class="dot no"></span></td><td><span class="dot no"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span><i class="dot"></i> gelistet</span>
+      <span><i class="dot no"></i> nicht genannt</span>
+      <span>Quelle: Abruf 09.09.2026</span>
+    </div>
+  </section>
+
+  <section>
+    <span class="h-num">02 — Wettbewerbsfeld</span>
+    <h2>Von fünf auf zwölf Anbieter in sechs Monaten</h2>
+    <p class="dek">Monatspreise, unterste bis oberste Stufe. TimeInvoicer liegt am unteren Rand des Feldes — der Regulärpreis 24,90 € trifft exakt das ZEIPSY- und TheraPsy-Niveau. Der Preis ist nicht das Problem: Bei null zahlenden Kund:innen wurde er nie getestet.</p>
+
+    <div class="ladder">
+      <div class="ladder-inner">
+        <div class="row own">
+          <div class="name">TimeInvoicer</div>
+          <div class="track"><div class="seg" style="left:0%;width:12.45%"></div></div>
+          <div class="val">0 – 24,90</div>
+        </div>
+        <div class="row">
+          <div class="name">getHonorar</div>
+          <div class="track"><div class="seg" style="left:7.5%;width:22%"></div></div>
+          <div class="val">15 – 59</div>
+        </div>
+        <div class="row">
+          <div class="name">Theradocx</div>
+          <div class="track"><div class="seg" style="left:10%;width:50%"></div></div>
+          <div class="val">20 – 120</div>
+        </div>
+        <div class="row">
+          <div class="name">TheraPsy</div>
+          <div class="track"><div class="seg point" style="left:12.45%"></div></div>
+          <div class="val">24,90</div>
+        </div>
+        <div class="row">
+          <div class="name">ZEIPSY</div>
+          <div class="track"><div class="seg" style="left:12.5%;width:10%"></div></div>
+          <div class="val">24,99 – 44,99</div>
+        </div>
+        <div class="row">
+          <div class="name">Psido</div>
+          <div class="track"><div class="seg point" style="left:12.5%"></div></div>
+          <div class="val">25</div>
+        </div>
+        <div class="row">
+          <div class="name">synaptos</div>
+          <div class="track"><div class="seg" style="left:15%;width:41%"></div></div>
+          <div class="val">30 – 112</div>
+        </div>
+        <div class="row">
+          <div class="name">appointmed</div>
+          <div class="track"><div class="seg" style="left:22.5%;width:27%"></div></div>
+          <div class="val">45 – 99</div>
+        </div>
+        <div class="row">
+          <div class="name">treatsoft</div>
+          <div class="track"><div class="seg" style="left:22.5%;width:77%"></div></div>
+          <div class="val">45 – 199</div>
+        </div>
+        <div class="row">
+          <div class="name">VIA HealthTech</div>
+          <div class="track"><div class="seg" style="left:24.5%;width:35%"></div></div>
+          <div class="val">49 – 119</div>
+        </div>
+        <div class="row">
+          <div class="name">freudio</div>
+          <div class="track"><div class="seg point" style="left:25%"></div></div>
+          <div class="val">49,99</div>
+        </div>
+        <div class="row">
+          <div class="name">Latido</div>
+          <div class="track"><div class="seg" style="left:33.5%;width:66%"></div></div>
+          <div class="val">67 – 199</div>
+        </div>
+
+        <div class="axis">
+          <div></div>
+          <div class="axis-ticks">
+            <span style="left:0%">0 €</span>
+            <span style="left:25%">50</span>
+            <span style="left:50%">100</span>
+            <span style="left:75%">150</span>
+            <span style="left:100%">200 €/Monat</span>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:24px">Zwei Verschiebungen sind strategisch relevant. Erstens ist ein Sub-Segment entstanden, das es im März nicht gab: <strong>KI-Dokumentation</strong> — Theradocx, VIA HealthTech, PlaynVoice verkaufen nicht Abrechnung, sondern Zeitersparnis beim Schreiben. Dieselbe Nutzenachse wie TimeInvoicer, anderer Arbeitsschritt. Zweitens: <strong>niemand ist mobil.</strong> Die Vergleichsartikel filtern nach „Browser oder Desktop"; mobil kommt als Auswahlkriterium nicht vor. Der Vorteil ist real, aber die Kategorie hat keine Schublade dafür.</p>
+  </section>
+
+  <section>
+    <span class="h-num">03 — Preis-Kohärenz</span>
+    <h2>Vier Kaufflächen, zwei offene Punkte</h2>
+    <p class="dek">Websites und Play-Release-Notes stimmen überein. Zwei Flächen sind nicht bestätigt.</p>
+
+    <div class="tbl-scroll">
+      <table class="data">
+        <thead>
+          <tr><th>Kauffläche</th><th>1.&nbsp;Jahr</th><th>danach</th><th>Stand</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>timeinvoicer.at / preise.html</td><td class="num">99 €</td><td class="num">249 €</td><td><span class="flag ok">live geprüft</span></td></tr>
+          <tr><td>timeinvoicer.com</td><td class="num">99 €</td><td class="num">249 €</td><td><span class="flag ok">live geprüft</span></td></tr>
+          <tr><td>Play Store · Release-Notes 01.09.</td><td class="num">99 €</td><td class="num">149 € Plus / 249 € Premium</td><td><span class="flag ok">live geprüft</span></td></tr>
+          <tr><td>App Store · IAP-Zeile</td><td class="num">—</td><td class="num">„Gründerpreis Jährlich 249,00 €"</td><td><span class="flag check">Basispreis ohne Angebot</span></td></tr>
+          <tr><td>Play Console · <span class="mono">timeinvoicer_gruender_yearly</span></td><td class="num">—</td><td class="num">199,99 € laut eigener Doku</td><td><span class="flag check">ungeprüft · BUG-496</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:18px;font-size:.93rem;color:var(--text-2)">Die App-Store-Zeile zeigt den Basispreis ohne Einführungsangebot — technisch normal, für den Interessenten aber der erste sichtbare Preis. Der Play-Console-Basispreis steht laut <span class="mono">PROJEKTPLAN_BUSINESS.md</span> noch auf 199,99 €, während der Owner-Entscheid vom 30.08. einheitlich 249 € festlegt. Diese Woche zu prüfen.</p>
+  </section>
+
+  <section>
+    <span class="h-num">04 — Store-Realität</span>
+    <h2>Wer die Store-Seite sieht, installiert. Es sehen sie zu wenige.</h2>
+    <p class="dek">Die Store-Conversion-Rate lag zuletzt bei 22,03 % — überdurchschnittlich. Das Problem ist Reichweite, nicht Überzeugungskraft.</p>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="k">Play · Downloads</div>
+        <div class="v">10+</div>
+        <div class="n">Stand 01.09.2026</div>
+      </div>
+      <div class="metric">
+        <div class="k">Play · Bewertungen</div>
+        <div class="v zero">0</div>
+        <div class="n">keine Sterne sichtbar</div>
+      </div>
+      <div class="metric">
+        <div class="k">iOS · Version</div>
+        <div class="v">1.0.10</div>
+        <div class="n">live seit 04.08.2026</div>
+      </div>
+      <div class="metric">
+        <div class="k">iOS · Bewertungen</div>
+        <div class="v zero">0</div>
+        <div class="n">„noch nicht genügend"</div>
+      </div>
+      <div class="metric">
+        <div class="k">Store-Impressionen</div>
+        <div class="v">115</div>
+        <div class="n">28 Tage, Audit 11.08.</div>
+      </div>
+    </div>
+
+    <p style="margin-top:24px"><strong>Null Bewertungen bei 10+ Downloads ist der härteste einzelne Conversion-Blocker.</strong> Jeder Vergleichsartikel und jeder Store-Besucher liest zuerst die Sterne. Ohne sie wirkt das Produkt neben ZEIPSY und synaptos wie ein Hobbyprojekt — obwohl es das nicht ist.</p>
+  </section>
+
+  <section>
+    <span class="h-num">05 — Entscheidungen</span>
+    <h2>Fünf Schritte, in dieser Reihenfolge</h2>
+    <p class="dek">Die Nummerierung ist eine Abhängigkeitskette, keine Aufzählung: Schritt 5 ist erst sinnvoll, wenn 1 bis 4 stehen.</p>
+
+    <ol class="decisions">
+      <li>
+        <h3>Kategorie-Eintritt erzwingen</h3>
+        <p>Die drei Artikel, die die Kategorie definieren, gehören Wettbewerbern. Gegenzug: ein eigener, ehrlicher Zwölf-Anbieter-Vergleich auf timeinvoicer.at — die Daten dafür stehen in diesem Bericht — plus Einträge in die neutralen Verzeichnisse, die bereits ranken: Capterra AT/DE, GetApp AT, Medizinio. Kostet Zeit statt CPC und wirkt länger als jede Kampagne.</p>
+      </li>
+      <li>
+        <h3>Positionierung auf die freie Achse schärfen</h3>
+        <p>Der Store-Titel „Praxissoftware" stellt das Produkt in eine Reihe mit zwölf Web-Suiten, in der es nach Feature-Tiefe verliert. Die eine Achse, die niemand besetzt: läuft auf dem Handy, nimmt deinen Kalender, funktioniert offline. Das gehört in Titel, Untertitel und die ersten zwei Zeilen beider Store-Beschreibungen.</p>
+      </li>
+      <li>
+        <h3>Preis-Kanon final verifizieren</h3>
+        <p>App-Store-Angebotszeile und Play-Console-Basispreis <span class="mono">timeinvoicer_gruender_yearly</span> gegen den Owner-Entscheid vom 30.08. abgleichen (dokumentiert 199,99 €, entschieden 249 €).</p>
+      </li>
+      <li>
+        <h3>Erste Bewertungen holen</h3>
+        <p>In-App-Review-Prompt nach der dritten erstellten Honorarnote. Ziel bis KW 41: fünf Bewertungen je Store. Ohne das ist jeder Ads-Euro doppelt teuer.</p>
+      </li>
+      <li>
+        <h3>Google Ads bleibt aus</h3>
+        <p>Bis 1 bis 4 stehen und Store-Click, Download und Purchase in Google Ads messbar sind. Die Kampagne <span class="mono">G_Search_August</span> ist seit 30.08. pausiert; bis dahin wurde auf Page-View-Conversions optimiert, die keine waren.</p>
+        <span class="dep">abhängig von 1 – 4</span>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="h-num">06 — Beobachtungsliste</span>
+    <h2>Was der Lauf in KW 38 beantwortet</h2>
+    <ul class="watch">
+      <li>Nehmen freudio oder Theradocx TimeInvoicer in ihre Artikel auf? <em>Erwartete Antwort: nein.</em></li>
+      <li>Erste Bewertung in einem der beiden Stores?</li>
+      <li>Play-Downloads über die Schwelle 10+ hinaus?</li>
+      <li>Preisänderung bei einem Wettbewerber — der Snapshot-Diff meldet sie automatisch.</li>
+      <li>Neuer Anbieter im Feld. Die Rate lag zuletzt bei rund 1,5 neuen Anbietern pro Monat.</li>
+    </ul>
+  </section>
+
+  <footer>
+    Datenbasis · Live-Abruf Play Store, App Store, timeinvoicer.at/.com/.ch, drei Vergleichsartikel, sechs Wettbewerber-Preisseiten (09.09.2026)<br>
+    Repo <span class="mono">clientmanager</span> · marketing/google-ads/*, PROJEKTPLAN_BUSINESS.md, MARKTANALYSE_KALENDER_FIRST.md · Gmail<br>
+    Nicht abrufbar in diesem Lauf · Google Ads API, Play Console, App Store Connect, GA4 — zitierte Werte stammen aus dem Audit vom 11.08.2026<br>
+    Snapshot <span class="mono">marktposition/data/snapshot-2026-09-09.json</span> · nächster Lauf Montag 08:00
+  </footer>
+
+</div>

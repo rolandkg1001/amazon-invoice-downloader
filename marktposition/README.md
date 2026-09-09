@@ -60,3 +60,14 @@ Die zuletzt bekannten Werte dieser vier Quellen stehen im jeweils letzten Berich
 - Ein Bericht behauptet nie einen Live-Store-Stand, der nicht in diesem Lauf abgerufen wurde.
 - Die Entscheidungsliste wird nicht länger als fünf Punkte. Was nicht in fünf passt, ist keine
   Entscheidung, sondern eine Sammlung.
+
+## Artifact
+
+Der Bericht wird zusätzlich als Artifact veröffentlicht — eine stabile URL, die jede Woche
+überschrieben wird, damit sich Lesezeichen und geteilte Links nicht ändern:
+
+**https://claude.ai/code/artifact/edba7218-504e-4a68-87eb-9fcf01aac858**
+
+`report.html` ist die zuletzt veröffentlichte Fassung und dient dem nächsten Lauf als Vorlage:
+Inhalte ersetzen, Struktur und Gestaltung behalten, dann mit `url:` auf dieselbe Adresse
+republishen. Ohne `url:` entsteht ein zweites Artifact statt einer neuen Version.
