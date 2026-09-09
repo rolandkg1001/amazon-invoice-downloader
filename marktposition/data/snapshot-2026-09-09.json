@@ -1,0 +1,301 @@
+{
+  "generated": "2026-09-09T12:40:31+00:00",
+  "week": [
+    2026,
+    37
+  ],
+  "play_store": {
+    "url": "https://play.google.com/store/apps/details?id=at.insglueck.timeinvoicer&hl=de&gl=AT",
+    "downloads": "10+",
+    "last_update": "01.09.2026",
+    "rating": null,
+    "reviews": "0",
+    "title": "TimeInvoicer Praxissoftware"
+  },
+  "app_store": {
+    "url": "https://apps.apple.com/at/app/timeinvoicer/id6761268235",
+    "version": "1.0.10",
+    "rating": null,
+    "reviews": "0",
+    "iap_prices": [
+      "99 EUR — preis wird klar als Jahresangebot angezeigt: 99 € im 1. Jahr, danach 249 €",
+      "249 EUR — esangebot angezeigt: 99 € im 1. Jahr, danach 249 € pro Jahr. • TimeInvoicer",
+      "14,90 EUR — Weitere Infos In-App-Käufe Ja Plus Monatlich 14,90 € Premium Jährlich 249,00",
+      "249,00 EUR — e Ja Plus Monatlich 14,90 € Premium Jährlich 249,00 € Premium Monatlich 24,90",
+      "24,90 EUR — Premium Jährlich 249,00 € Premium Monatlich 24,90 € Gründerpreis Jährlich 24",
+      "249,00 EUR — mium Monatlich 24,90 € Gründerpreis Jährlich 249,00 € Plus Jährlich 149,00 € W",
+      "149,00 EUR — Gründerpreis Jährlich 249,00 € Plus Jährlich 149,00 € Weitere Infos Anbieter R"
+    ]
+  },
+  "own_price_surfaces": {
+    "at_preise": {
+      "url": "https://timeinvoicer.at/preise.html",
+      "prices": [
+        "9,90 EUR — Preise — Kostenlos starten, Pro ab 9,90 €/Monat | TimeInvoicer Ab",
+        "9,90 EUR — rade, wenn du bereit bist. Neu am Markt: Pro 9,90 € statt 14,90 € und Premiu",
+        "14,90 EUR — bereit bist. Neu am Markt: Pro 9,90 € statt 14,90 € und Premium 19,90 € stat",
+        "19,90 EUR — Markt: Pro 9,90 € statt 14,90 € und Premium 19,90 € statt 24,90 € — nur für",
+        "24,90 EUR — 90 € statt 14,90 € und Premium 19,90 € statt 24,90 € — nur für begrenzte Zeit",
+        "0 EUR — Beratung & Coaching Business Praxis Starter 0 € / dauerhaft Dauerhaft ko",
+        "9,90 EUR — & Restore Starter gratis nutzen Praxis Plus 9,90 € / Monat 9,90 €/Monat im",
+        "9,90 EUR — ter gratis nutzen Praxis Plus 9,90 € / Monat 9,90 €/Monat im 1. Jahr, danach",
+        "14,90 EUR — 90 € / Monat 9,90 €/Monat im 1. Jahr, danach 14,90 €/Monat oder 99 € im 1. Ja",
+        "99 EUR — /Monat im 1. Jahr, danach 14,90 €/Monat oder 99 € im 1. Jahr, danach 149 €",
+        "149 EUR — h 14,90 €/Monat oder 99 € im 1. Jahr, danach 149 €/Jahr Alles aus Starter,",
+        "99 EUR — tore Jetzt upgraden Empfohlen Praxis Premium 99 € im 1. Jahr Gründerpreis",
+        "249 EUR — ünderpreis für Praxis Premium danach regulär 249 €/Jahr oder 24,90 €/Monat",
+        "24,90 EUR — raxis Premium danach regulär 249 €/Jahr oder 24,90 €/Monat Alles aus Plus, pl",
+        "0 EUR — & Restore Jetzt upgraden → Beratung Starter 0 € / dauerhaft Dauerhaft ko",
+        "9,90 EUR — & Restore Starter gratis nutzen Beratung Pro 9,90 € / Monat 9,90 €/Monat im",
+        "9,90 EUR — er gratis nutzen Beratung Pro 9,90 € / Monat 9,90 €/Monat im 1. Jahr, danach",
+        "19,90 EUR — re Jetzt upgraden Empfohlen Beratung Premium 19,90 € / Monat 19,90 €/Monat im",
+        "19,90 EUR — n Empfohlen Beratung Premium 19,90 € / Monat 19,90 €/Monat im 1. Jahr, danach",
+        "24,90 EUR — 0 € / Monat 19,90 €/Monat im 1. Jahr, danach 24,90 €/Monat oder 99 € im 1. Ja",
+        "99 EUR — /Monat im 1. Jahr, danach 24,90 €/Monat oder 99 € im 1. Jahr, danach 249 €",
+        "249 EUR — h 24,90 €/Monat oder 99 € im 1. Jahr, danach 249 €/Jahr Alles aus Plus, plu",
+        "0 EUR — & Restore Jetzt upgraden → Business Starter 0 € / dauerhaft Dauerhaft ko",
+        "9,90 EUR — Restore Starter gratis nutzen Business Plus 9,90 € / Monat 9,90 €/Monat im",
+        "9,90 EUR — r gratis nutzen Business Plus 9,90 € / Monat 9,90 €/Monat im 1. Jahr, danach",
+        "19,90 EUR — re Jetzt upgraden Empfohlen Business Premium 19,90 € / Monat 19,90 €/Monat im",
+        "19,90 EUR — n Empfohlen Business Premium 19,90 € / Monat 19,90 €/Monat im 1. Jahr, danach",
+        "699 EUR — tzt upgraden → Nebenoption 💎 Lifetime Einmal 699 € — deine App für immer Al",
+        "99 EUR — t in der App. ⭐ Gründerpreis Praxis Premium: 99 € im 1. Jahr Nur 100 Plätz",
+        "249 EUR — 100 Plätze . Gilt im 1. Jahr, danach regulär 249 €/Jahr. (Auch Praxis Plus",
+        "99 EUR — Jahr. (Auch Praxis Plus jährlich startet mit 99 € — ab dem 2. Jahr sind es",
+        "149 EUR — ch startet mit 99 € — ab dem 2. Jahr sind es 149 €/Jahr.) Nur 100 Plätze ·",
+        "99 EUR — ium freudio synaptos appointmed ZEIPSY Preis 99 € im 1. Jahr danach regulä",
+        "249 EUR — ZEIPSY Preis 99 € im 1. Jahr danach regulär 249 €/Jahr oder 24,90 €/Monat",
+        "24,90 EUR — € im 1. Jahr danach regulär 249 €/Jahr oder 24,90 €/Monat ab 29,99 €/Monat b",
+        "29,99 EUR — ach regulär 249 €/Jahr oder 24,90 €/Monat ab 29,99 €/Monat bzw. 24,99 €/Monat",
+        "24,99 EUR — ahr oder 24,90 €/Monat ab 29,99 €/Monat bzw. 24,99 €/Monat jährlich ab 30 €/M",
+        "30 EUR — 29,99 €/Monat bzw. 24,99 €/Monat jährlich ab 30 €/Monat netto ab 45 €/Mona",
+        "45 EUR — 4,99 €/Monat jährlich ab 30 €/Monat netto ab 45 €/Monat netto Basic 85 €/M",
+        "85 EUR — b 30 €/Monat netto ab 45 €/Monat netto Basic 85 €/Monat netto 0 € limitier"
+      ]
+    },
+    "at_start": {
+      "url": "https://timeinvoicer.at/",
+      "prices": [
+        "699 EUR — bereit. 04 Einmal kaufen Lifetime: einmalig 699 € zahlen und Premium dauer",
+        "99 EUR — f deinem Gerät. Praxis Premium Gründerpreis: 99 € im 1. Jahr 14 Tage teste",
+        "249 EUR — en sind in Premium enthalten. Danach regulär 249 €/Jahr oder 24,90 €/Monat.",
+        "24,90 EUR — um enthalten. Danach regulär 249 €/Jahr oder 24,90 €/Monat. Alternativ gibt e",
+        "699 EUR — at. Alternativ gibt es Lifetime für einmalig 699 €. Preise und Optionen ans"
+      ]
+    },
+    "com_start": {
+      "url": "https://timeinvoicer.com/",
+      "prices": [
+        "8 EUR — alendar ✗ No Calendar Starting Price Starter €8.90/mo €7.90/mo $15/mo Of",
+        "7 EUR — No Calendar Starting Price Starter €8.90/mo €7.90/mo $15/mo Offline-Cap",
+        "0 EUR — costs, cancel monthly. TimeInvoicer Starter 0 € Permanently free ✓ Calen",
+        "90 EUR — ng Starter Most Popular TimeInvoicer Plus 14.90 € 9.90 € / month Intro pri",
+        "90 EUR — ter Most Popular TimeInvoicer Plus 14.90 € 9.90 € / month Intro price — wa",
+        "90 EUR — 14.90 € 9.90 € / month Intro price — was 14.90 € — or 99 € first year. Ev",
+        "99 EUR — .90 € / month Intro price — was 14.90 € — or 99 € first year. Everything i",
+        "90 EUR — estore Upgrade now → TimeInvoicer Premium 24.90 € 19.90 € / month Intro pr",
+        "90 EUR — pgrade now → TimeInvoicer Premium 24.90 € 19.90 € / month Intro price — wa",
+        "90 EUR — 24.90 € 19.90 € / month Intro price — was 24.90 € — or 99 € in the first y",
+        "99 EUR — .90 € / month Intro price — was 24.90 € — or 99 € in the first year, then",
+        "249 EUR — as 24.90 € — or 99 € in the first year, then 249 €/year. Everything in Plus",
+        "99 EUR — now ⭐ Founder's Price TimeInvoicer Premium: 99 € first year For the first"
+      ]
+    },
+    "ch_start": {
+      "url": "https://timeinvoicer.ch/",
+      "prices": [
+        "8 EUR — informationen. 14 Tage gratis testen Plus ab CHF 8 / Monat Einführungspreis",
+        "8 EUR — b CHF 8 / Monat Einführungspreis im 1. Jahr: CHF 8 im App Store (danach CHF",
+        "10 EUR — preis im 1. Jahr: CHF 8 im App Store (danach CHF 10) bzw. CHF 9.10 bei Googl",
+        "9 EUR — ahr: CHF 8 im App Store (danach CHF 10) bzw. CHF 9.10 bei Google Play (dana",
+        "14 EUR — HF 10) bzw. CHF 9.10 bei Google Play (danach CHF 14.90). Oder im Jahresabo a",
+        "80 EUR — lay (danach CHF 14.90). Oder im Jahresabo ab CHF 80 im 1. Jahr (danach CHF 1",
+        "110 EUR — er im Jahresabo ab CHF 80 im 1. Jahr (danach CHF 110). Alles aus Free plus un",
+        "15 EUR — nen. 14 Tage gratis testen Praxis Premium ab CHF 15 / Monat Einführungspreis",
+        "15 EUR — CHF 15 / Monat Einführungspreis im 1. Jahr: CHF 15 im App Store (danach CHF",
+        "20 EUR — reis im 1. Jahr: CHF 15 im App Store (danach CHF 20) bzw. CHF 19.90 bei Goog",
+        "19 EUR — hr: CHF 15 im App Store (danach CHF 20) bzw. CHF 19.90 bei Google Play (dana",
+        "24 EUR — F 20) bzw. CHF 19.90 bei Google Play (danach CHF 24.90). Oder im Jahresabo:",
+        "150 EUR — Play (danach CHF 24.90). Oder im Jahresabo: CHF 150 im 1. Jahr (danach CHF 2",
+        "200 EUR — der im Jahresabo: CHF 150 im 1. Jahr (danach CHF 200) im App Store bzw. CHF 1",
+        "149 EUR — m 1. Jahr (danach CHF 200) im App Store bzw. CHF 149 im 1. Jahr (danach CHF 1",
+        "150 EUR — im App Store bzw. CHF 149 im 1. Jahr (danach CHF 150) bei Google Play. Alles",
+        "89 EUR — für die ersten 100 Nutzerinnen und Nutzer — CHF 89 im 1. Jahr bei Google Pl",
+        "190 EUR — — CHF 89 im 1. Jahr bei Google Play (danach CHF 190) bzw. CHF 80 im App Stor",
+        "80 EUR — . Jahr bei Google Play (danach CHF 190) bzw. CHF 80 im App Store (danach CHF",
+        "200 EUR — ch CHF 190) bzw. CHF 80 im App Store (danach CHF 200). Endpreise, Währung und"
+      ]
+    }
+  },
+  "category_visibility": {
+    "freudio_vergleich": {
+      "url": "https://www.freudio.com/blog/praxissoftware-psychotherapie-oesterreich-die-10-anbieter-im-test-vergleich-2026",
+      "listed": false,
+      "providers_hint": [
+        "appointmed",
+        "freudio",
+        "latido",
+        "onono",
+        "psido",
+        "synaptos",
+        "theradocx",
+        "therapsy",
+        "treatsoft",
+        "zeipsy"
+      ]
+    },
+    "theradocx_vergleich": {
+      "url": "https://www.theradocx.at/blog/praxissoftware-psychotherapie-oesterreich-2026",
+      "listed": false,
+      "providers_hint": [
+        "appointmed",
+        "freudio",
+        "playnvoice",
+        "psido",
+        "synaptos",
+        "theradocx",
+        "therapsy",
+        "via healthtech",
+        "zeipsy"
+      ]
+    },
+    "praxissoftware_psychotherapie_com": {
+      "url": "https://praxissoftware-psychotherapie.com/",
+      "listed": false,
+      "providers_hint": [
+        "appointmed",
+        "freudio",
+        "synaptos",
+        "therapsy",
+        "via healthtech"
+      ]
+    }
+  },
+  "competitors": {
+    "synaptos": {
+      "url": "https://synaptos.at/preise/",
+      "prices": [
+        "30 EUR — o, zzgl. Steuer. Jahresabo Monatsabo Gründer € 30 00 pro Monat bei monatli",
+        "29 EUR — € 30 00 pro Monat bei monatlicher Abrechnung € 29 00 pro Monat bei jährlic",
+        "45 EUR — zexport Paket wählen Paket wählen Einsteiger € 45 00 pro Monat bei monatli",
+        "43 EUR — € 45 00 pro Monat bei monatlicher Abrechnung € 43 00 pro Monat bei jährlic",
+        "86 EUR — per E-Mail Paket wählen Paket wählen Sorglos € 86 00 pro Monat bei monatli",
+        "83 EUR — € 86 00 pro Monat bei monatlicher Abrechnung € 83 00 pro Monat bei jährlic",
+        "112 EUR — Paket wählen Paket wählen Best Deal Premium € 112 00 pro Monat bei monatli",
+        "108 EUR — 112 00 pro Monat bei monatlicher Abrechnung € 108 00 pro Monat bei jährlic",
+        "30 EUR — tehen sich netto, zzgl. Steuer. Angestellter € 30 00 pro Monat bei monatli",
+        "7500 EUR — ger Sorglos Premium Abrechnung​ Umsatzgrenze € 7.500,- – – – One-Click-Honora",
+        "0,10 EUR — en Deine Terminerinnerungs-SMS zum Tarif von € 0,10 pro SMS (netto) über uns",
+        "0,10 EUR — en Deine Terminerinnerungs-SMS zum Tarif von € 0,10 netto pro SMS über unser"
+      ]
+    },
+    "zeipsy": {
+      "url": "https://zeipsy.com/",
+      "prices": [
+        "2640,00 EUR — nzel) Unbezahlte Rechnungen 5 offen · gesamt 2.640,00 € Alle Rechnung Aktionen M",
+        "660,00 EUR — Rechnung Aktionen Musterfrau Elena 53/2026: 660,00 € 31.07.2026 Unbezahlt Mus",
+        "550,00 EUR — .07.2026 Unbezahlt Mustermann David 51/2026: 550,00 € 31.07.2026 10.08.2026 09",
+        "550,00 EUR — 09:14 Unbezahlt Mustermann Michael 50/2026: 550,00 € 30.06.2026 Unbezahlt Mus",
+        "440,00 EUR — 06.2026 Unbezahlt Musterbauer Lukas 47/2026: 440,00 € 30.06.2026 Unbezahlt Fin",
+        "27450,00 EUR — €) Geleistet (#) E/A Jahressummen Geleistet: 27.450,00 € Bezahlt: 21.870,00 € Unb",
+        "21870,00 EUR — Jahressummen Geleistet: 27.450,00 € Bezahlt: 21.870,00 € Unbezahlt: 2.640,00 € Ni",
+        "2640,00 EUR — 27.450,00 € Bezahlt: 21.870,00 € Unbezahlt: 2.640,00 € Nicht verrechnet: 1.950,",
+        "1950,00 EUR — 00 € Unbezahlt: 2.640,00 € Nicht verrechnet: 1.950,00 € Ausgebucht: 990,00 € 500",
+        "990,00 EUR — 0 € Nicht verrechnet: 1.950,00 € Ausgebucht: 990,00 € 5000 4000 3000 2000 1000",
+        "3240,00 EUR — 00 € 5000 4000 3000 2000 1000 0 Jän Bezahlt: 3.240,00 € 3240 3240 Feb Bezahlt: 3",
+        "3560,00 EUR — n Bezahlt: 3.240,00 € 3240 3240 Feb Bezahlt: 3.560,00 € 3560 3560 Mär Bezahlt: 3",
+        "3820,00 EUR — b Bezahlt: 3.560,00 € 3560 3560 Mär Bezahlt: 3.820,00 € 3820 3820 Apr Bezahlt: 3",
+        "3400,00 EUR — r Bezahlt: 3.820,00 € 3820 3820 Apr Bezahlt: 3.400,00 € 3400 3400 Mai Bezahlt: 3",
+        "3320,00 EUR — r Bezahlt: 3.400,00 € 3400 3400 Mai Bezahlt: 3.320,00 € Unbezahlt: 440,00 € 3760",
+        "440,00 EUR — 3400 3400 Mai Bezahlt: 3.320,00 € Unbezahlt: 440,00 € 3760 3320 Jun Bezahlt: 2",
+        "2990,00 EUR — € Unbezahlt: 440,00 € 3760 3320 Jun Bezahlt: 2.990,00 € Unbezahlt: 990,00 € Ausg",
+        "990,00 EUR — 3760 3320 Jun Bezahlt: 2.990,00 € Unbezahlt: 990,00 € Ausgebucht: 550,00 € 453",
+        "550,00 EUR — : 2.990,00 € Unbezahlt: 990,00 € Ausgebucht: 550,00 € 4530 2990 990 Jul Bezahl",
+        "1540,00 EUR — gebucht: 550,00 € 4530 2990 990 Jul Bezahlt: 1.540,00 € Unbezahlt: 1.210,00 € Ni",
+        "1210,00 EUR — 2990 990 Jul Bezahlt: 1.540,00 € Unbezahlt: 1.210,00 € Nicht verrechnet: 110,00",
+        "110,00 EUR — 00 € Unbezahlt: 1.210,00 € Nicht verrechnet: 110,00 € Ausgebucht: 440,00 € 330",
+        "440,00 EUR — ,00 € Nicht verrechnet: 110,00 € Ausgebucht: 440,00 € 3300 1540 1210 Aug Nicht",
+        "1840,00 EUR — 40,00 € 3300 1540 1210 Aug Nicht verrechnet: 1.840,00 € Geplant: 1.320,00 € 3160",
+        "1320,00 EUR — 10 Aug Nicht verrechnet: 1.840,00 € Geplant: 1.320,00 € 3160 1840 1320 Ø 3596 Ja"
+      ]
+    },
+    "appointmed": {
+      "url": "https://www.appointmed.com/preise",
+      "prices": [
+        "45 EUR — r einfach nur die Basisfunktionen benötigen. 45 €* pro Monat (max. 1 Benut",
+        "9,50 EUR — zelne, ausgewählte BASIC Features für je nur 9,50 €* / Monat . Ideal für kle",
+        "85 EUR — ab dem 2. Benutzer – 25% ab dem 6. Benutzer 85 €* pro Monat & Benutzer Gr",
+        "45 EUR — ngskreis oder eigene Geschäftseinstellungen. 45 €* statt 85 €, pro Monat &",
+        "85 EUR — r eigene Geschäftseinstellungen. 45 €* statt 85 €, pro Monat & Benutzer Ad",
+        "45 EUR — e oder Rechnungen/Belege sind nicht möglich. 45 €* statt 85 €, pro Monat &",
+        "85 EUR — ungen/Belege sind nicht möglich. 45 €* statt 85 €, pro Monat & Benutzer Al",
+        "12,50 EUR — und Jahresabschlüsse über Deinen Barumsatz. 12,50 €* / Monat SMS Versand Sen",
+        "0,13 EUR — lare bequem auf's Handy Deiner PatientInnen. 0,13 €* / SMS Sicherer Dateiver",
+        "0,50 EUR — ntenakte, sowie von Rechnungen/Honorarnoten. 0,50 €* / Versand Videosprechst",
+        "2,50 EUR — ass der Patient in Deine Praxis kommen muss. 2,50 €* / Sprechstunde appointm",
+        "9,50 EUR — ftskontakten, abweichende rechnungsempfänger 9,50 €* / Monat Terminplanung &",
+        "9,50 EUR — rwalten Wiederkehrende Termine, Terminserien 9,50 €* / Monat Kalender Synchr",
+        "9,50 EUR — / Monat Kalender Synchronisierung (one way) 9,50 €* / Monat Online Terminve",
+        "9,50 EUR — y) 9,50 €* / Monat Online Terminvereinbarung 9,50 €* / Monat Automatische Te",
+        "0,13 EUR — che Terminerinnerungen für Patienten Per SMS 0,13 €* / SMS (nach Verbrauch)",
+        "9,50 EUR — MS 0,13 €* / SMS (nach Verbrauch) Per E-Mail 9,50 €* / Monat Patienten, Kont",
+        "2,50 EUR — on Bildern und Dokumenten Videosprechstunden 2,50 €* / Sprechstunde (nach Ve",
+        "9,50 EUR — tunde (nach Verbrauch) Sicherer Dateiversand 9,50 €* / Monat Aufgabenverwalt",
+        "9,50 EUR — d 9,50 €* / Monat Aufgabenverwaltung & Todos 9,50 €* / Monat Verrechnung Geb",
+        "12,50 EUR — nung für Heilpraktiker 🇩🇪 Registrierkasse 🇦🇹 12,50 €* / Monat (optional) Einr",
+        "9,50 EUR — online, Honorarordnung für Physiotherapie 🇦🇹 9,50 €* / Monat Sicherheit & Su",
+        "0,50 EUR — abenverwaltung & Todos Sicherer Dateiversand 0,50 €* / Versand (nach Verbrau",
+        "50 EUR — Verbrauch, monatl. 5 Sendungen gratis, max. 50 € / Monat) Verrechnung Ein",
+        "9,50 EUR — ftskontakten, abweichende Rechnungsempfänger 9,50 €* / Monat Terminplanung &"
+      ]
+    },
+    "freudio": {
+      "url": "https://www.freudio.com/preise",
+      "prices": [
+        "240 EUR — jährlicher Zahlung Praxisstart Spare bis zu €240 im ersten Jahr €29,99 €2",
+        "29,99 EUR — Praxisstart Spare bis zu €240 im ersten Jahr €29,99 €24,99 /Monat jährlich k",
+        "24,99 EUR — tart Spare bis zu €240 im ersten Jahr €29,99 €24,99 /Monat jährlich kündbar",
+        "49,99 EUR — ingangs-und Ausgangsrechnungen Komplettpaket €49,99 €41,67 /Monat jährlich k",
+        "41,67 EUR — -und Ausgangsrechnungen Komplettpaket €49,99 €41,67 /Monat jährlich kündbar",
+        "240 EUR — e gratis bei jährlicher Zahlung Spare bis zu €240 im ersten Jahr Praxissta",
+        "29,99 EUR — Spare bis zu €240 im ersten Jahr Praxisstart 29,99 €24,99 pro Monat, jährlich",
+        "49,99 EUR — ingangs-und Ausgangsrechnungen Komplettpaket 49,99 €41,67 pro Monat, jährlich",
+        "29,99 EUR — Spare bis zu €240 im ersten Jahr Praxisstart €29,99 €24,99 pro Monat, jährli",
+        "24,99 EUR — is zu €240 im ersten Jahr Praxisstart €29,99 €24,99 pro Monat, jährlich künd",
+        "49,99 EUR — ingangs-und Ausgangsrechnungen Komplettpaket €49,99 €41,67 pro Monat, jährli",
+        "41,67 EUR — -und Ausgangsrechnungen Komplettpaket €49,99 €41,67 pro Monat, jährlich künd"
+      ]
+    },
+    "theradocx": {
+      "url": "https://www.theradocx.at/",
+      "prices": [
+        "20 EUR — +Add-on: DSGVO-Konforme Online Therapie für 20 € monatlich. Monatlich Jäh",
+        "20 EUR — Jährlich Spare bis zu 12 % Praxis Verwaltung 20 € 17,50 € monatlich 1 mal",
+        "17,50 EUR — ich Spare bis zu 12 % Praxis Verwaltung 20 € 17,50 € monatlich 1 mal jährlich",
+        "45 EUR — nkalender-Integration Jetzt Starten Beginner 45 € 40 € monatlich 1 mal jäh",
+        "40 EUR — nder-Integration Jetzt Starten Beginner 45 € 40 € monatlich 1 mal jährlich",
+        "80 EUR — zungen/Monat) Jetzt Starten beliebt Advanced 80 € 75 € monatlich 1 mal jäh",
+        "75 EUR — n/Monat) Jetzt Starten beliebt Advanced 80 € 75 € monatlich 1 mal jährlich",
+        "120 EUR — Sitzungen/Monat) Jetzt Starten Professional 120 € 110 € monatlich 1 mal jä",
+        "110 EUR — ngen/Monat) Jetzt Starten Professional 120 € 110 € monatlich 1 mal jährlich",
+        "12 EUR — ium oder in Ausbildung? Praxis Verwaltung um 12 € monatlich, 10 % Rabatt a"
+      ]
+    },
+    "gethonorar": {
+      "url": "https://gethonorar.app/pricing",
+      "prices": [
+        "15 EUR — nkt Monatlich Kleinunternehmer:innen Starter 15 EUR / Monat zzgl. USt jährli",
+        "18 EUR — 5 EUR / Monat zzgl. USt jährliche Abrechnung 18 EUR / Monat zzgl. USt monatl",
+        "29 EUR — en Empfohlen Wachsende Selbstständigkeit Pro 29 EUR / Monat zzgl. USt jährli",
+        "35 EUR — 9 EUR / Monat zzgl. USt jährliche Abrechnung 35 EUR / Monat zzgl. USt monatl",
+        "49 EUR — ount Pro wählen Business Suite All-inclusive 49 EUR / Monat zzgl. USt jährli",
+        "59 EUR — 9 EUR / Monat zzgl. USt jährliche Abrechnung 59 EUR / Monat zzgl. USt monatl",
+        "5 EUR — mit einem Klick in Honorarnoten verwandeln. 5 EUR / Monat zzgl. USt jährli",
+        "6 EUR — 5 EUR / Monat zzgl. USt jährliche Abrechnung 6 EUR / Monat zzgl. USt monatl",
+        "10 EUR — mit deinem Kalender und direkt abrechenbar. 10 EUR / Monat zzgl. USt jährli",
+        "12 EUR — 0 EUR / Monat zzgl. USt jährliche Abrechnung 12 EUR / Monat zzgl. USt monatl",
+        "10 EUR — , Aktionen planen, E-Mail-Reminder erhalten. 10 EUR / Monat zzgl. USt jährli"
+      ]
+    }
+  }
+}
