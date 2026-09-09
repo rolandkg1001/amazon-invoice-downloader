@@ -415,11 +415,11 @@ a:focus-visible,li:focus-visible{outline:2px solid var(--accent);outline-offset:
           <tr><td>timeinvoicer.com</td><td class="num">99 €</td><td class="num">249 €</td><td><span class="flag ok">live geprüft</span></td></tr>
           <tr><td>Play Store · Release-Notes 01.09.</td><td class="num">99 €</td><td class="num">149 € Plus / 249 € Premium</td><td><span class="flag ok">live geprüft</span></td></tr>
           <tr><td>App Store · IAP-Zeile</td><td class="num">—</td><td class="num">„Gründerpreis Jährlich 249,00 €"</td><td><span class="flag check">Basispreis ohne Angebot</span></td></tr>
-          <tr><td>Play Console · <span class="mono">timeinvoicer_gruender_yearly</span></td><td class="num">—</td><td class="num">199,99 € laut eigener Doku</td><td><span class="flag check">ungeprüft · BUG-496</span></td></tr>
+          <tr><td>Play Console · <span class="mono">timeinvoicer_gruender_yearly</span></td><td class="num">99 €</td><td class="num">249 € · per API 31.08.</td><td><span class="flag ok">laut TARIF_WISSEN §4</span></td></tr>
         </tbody>
       </table>
     </div>
-    <p style="margin-top:18px;font-size:.93rem;color:var(--text-2)">Die App-Store-Zeile zeigt den Basispreis ohne Einführungsangebot — technisch normal, für den Interessenten aber der erste sichtbare Preis. Der Play-Console-Basispreis steht laut <span class="mono">PROJEKTPLAN_BUSINESS.md</span> noch auf 199,99 €, während der Owner-Entscheid vom 30.08. einheitlich 249 € festlegt. Diese Woche zu prüfen.</p>
+    <p style="margin-top:18px;font-size:.93rem;color:var(--text-2)">Stores, Websites und Play-Release-Notes sind auf den Kanon 99 → 249 abgeglichen. Was am 09.09. noch abwich, wurde in diesem Lauf korrigiert (Branch <span class="mono">claude/empfehlungen-2026-09-09</span>): „199 € im 1. Jahr" auf vier Seiten, und das Starter-Tier als „5 Rechnungen/Monat, 5 Klient:innen" auf 20 Seiten in vier Sprachen — Kanon seit 24.08. ist unbegrenzte Rechnungen, 10 Klient:innen. Der Guard-Test kennt beide Muster jetzt.</p>
   </section>
 
   <section>
@@ -473,8 +473,8 @@ a:focus-visible,li:focus-visible{outline:2px solid var(--accent);outline-offset:
         <p>Der Store-Titel „Praxissoftware" stellt das Produkt in eine Reihe mit zwölf Web-Suiten, in der es nach Feature-Tiefe verliert. Die eine Achse, die niemand besetzt: läuft auf dem Handy, nimmt deinen Kalender, funktioniert offline. Das gehört in Titel, Untertitel und die ersten zwei Zeilen beider Store-Beschreibungen.</p>
       </li>
       <li>
-        <h3>Preis-Kanon final verifizieren</h3>
-        <p>App-Store-Angebotszeile und Play-Console-Basispreis <span class="mono">timeinvoicer_gruender_yearly</span> gegen den Owner-Entscheid vom 30.08. abgleichen (dokumentiert 199,99 €, entschieden 249 €).</p>
+        <h3>Preis-Kanon ausrollen</h3>
+        <p>Die Website-Korrekturen aus <span class="mono">claude/empfehlungen-2026-09-09</span> deployen (.at, .com) und <span class="mono">docs/PLAY_STORE_LISTING.md</span> beim nächsten Listing-Update mitnehmen. Stores sind seit 31.08. auf Kanon.</p>
       </li>
       <li>
         <h3>Erste Bewertungen holen</h3>

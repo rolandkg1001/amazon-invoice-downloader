@@ -91,13 +91,23 @@ Der Markt trägt nachweislich 45–199 €/Monat. Preissenkungen wären hier das
 | timeinvoicer.com | 99 € | 249 € | live |
 | Play Store (Release-Notes 01.09.) | 99 € | 149 € Plus / 249 € Premium | live |
 | App Store (IAP-Zeile) | — | **„Gründerpreis Jährlich 249,00 €"** | live |
-| Play Console Basispreis `timeinvoicer_gruender_yearly` | — | **199,99 € laut eigener Doku** | ungeprüft |
+| Play Console Basispreis `timeinvoicer_gruender_yearly` | 99 € Intro | 249 € — per API am 31.08. gesetzt | laut `TARIF_WISSEN.md` §4, hier nicht live geprüft |
 
-Websites und Play-Release-Notes sind konsistent. Zwei offene Punkte: Die App-Store-Zeile zeigt den
-Basispreis (249 €) ohne den Einführungspreis — technisch normal, für den Interessenten aber der
-erste sichtbare Preis. Und der Play-Console-Basispreis steht laut `PROJEKTPLAN_BUSINESS.md` noch
-auf 199,99 €, während der Owner-Entscheid vom 30.08. (BUG-496) einheitlich 249 € festlegt. Das ist
-**nicht verifiziert** und gehört diese Woche geprüft.
+Stores, Websites und Play-Release-Notes sind auf den Kanon 99 → 249 abgeglichen (Store-Abgleich
+per Play-/ASC-API am 31.08., read-after-write dokumentiert in `TARIF_WISSEN.md`). Die
+App-Store-Zeile zeigt den Basispreis ohne Einführungsangebot — technisch normal, für den
+Interessenten aber der erste sichtbare Preis.
+
+**Was am 09.09. noch abwich — und in diesem Lauf korrigiert wurde** (Branch
+`claude/empfehlungen-2026-09-09` im Repo `clientmanager`):
+
+- „199 € im 1. Jahr" auf `timeinvoicer.com` (Start + Landing), `timeinvoicer.at/en/landing` und
+  im Allgemein-Folder — kein Tarif kostet 199 €.
+- Starter-Tier als „5 Rechnungen/Monat, 5 Klient:innen" auf 20 Seiten (.at DE/EN, .com,
+  .ch DE/FR/IT/RM, Blog) und in `docs/PLAY_STORE_LISTING.md` — Kanon seit 24.08.: unbegrenzte
+  Rechnungen, 10 Klient:innen. Die `.com`-Startseite und die Tarifkarten auf `.at/preise.html`
+  hatten den Kanon bereits, der Rest nicht.
+- Guard `PricingYearTwoCommunicationSourceScanTest` kannte beide Muster nicht; jetzt schon.
 
 ---
 
@@ -145,8 +155,9 @@ ein Ads-Konto treffen, das nicht misst.
    Achse, die niemand besetzt: *läuft auf dem Handy, nimmt deinen Kalender, funktioniert offline*.
    Das gehört in Titel, Untertitel und die ersten zwei Zeilen beider Store-Beschreibungen.
 
-3. **Preis-Kanon final verifizieren** — App-Store-Angebotszeile und Play-Console-Basispreis
-   `timeinvoicer_gruender_yearly` (BUG-496, dokumentiert 199,99 €, entschieden 249 €).
+3. **Preis-Kanon ausrollen** — die Website-Korrekturen aus dem Branch
+   `claude/empfehlungen-2026-09-09` deployen (.at, .com) und `docs/PLAY_STORE_LISTING.md` beim
+   nächsten Listing-Update mitnehmen. Stores sind seit 31.08. auf Kanon.
 
 4. **Erste Bewertungen holen.** In-App-Review-Prompt nach der dritten erstellten Honorarnote.
    Ziel bis KW 41: fünf Bewertungen je Store. Ohne das ist jeder Ads-Euro doppelt teuer.
